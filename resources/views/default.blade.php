@@ -17,7 +17,7 @@
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="navbar-inner">
             <div class="container-fluid">
-                <a class="brand" href="{{ route('welcome') }}/">Montesquieu</a>
+                <a class="brand" href="{{ route('welcome') }}">Montesquieu</a>
                 <div class="nav-collapse collapse">
                     <p class="navbar-text pull-right">
                     @if(Auth::check())
