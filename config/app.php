@@ -139,7 +139,7 @@ return [
         Illuminate\Html\HtmlServiceProvider::class,
 
         // DEBUG
-        Barryvdh\Debugbar\ServiceProvider::class,
+        //Barryvdh\Debugbar\ServiceProvider::class,
 
 
         /*
