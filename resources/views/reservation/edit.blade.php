@@ -1,0 +1,66 @@
+@extends('default')
+
+@section('title', $title)
+
+@section('content')
+    <ul class="breadcrumb">
+        <li><a href="{{ route('welcome') }}">Accueil</a> <span class="divider">/</span></li>
+        <li><a href="{{ route('reservation.index') }}">Réservations</a> <span class="divider">/</span></li>
+        <li><a href="{{ route('reservation.show', ['id' => $reservation->id]) }}">N°{{ $reservation->id }}</a> <span class="divider">/</span></li>
+        <li class="active">Modification</li>
+    </ul>
+    <div>
+        <h1>Réservation N°{{ $reservation->id }}</h1>
+        {!! Form::open(['url' => route('reservation.update', $reservation), 'method' => 'PUT']) !!}
+
+            <div class="form-group">
+                {!! Form::label('name', "Nom") !!}
+                {!! Form::text('name', $reservation->name, ['class' => 'form-control']) !!}
+            </div>
+            <div class="form-group">
+                {!! Form::label('forename', "Prénom") !!}
+                {!! Form::text('forename', $reservation->forename, ['class' => 'form-control']) !!}
+            </div>
+            <div class="form-group">
+                {!! Form::label('email', "Email") !!}
+                {!! Form::email('email', $reservation->email, ['class' => 'form-control']) !!}
+            </div>
+            <div class="form-group">
+                {!! Form::label('nb_people', "Nombre de personne") !!}
+                {!! Form::text('nb_people', $reservation->nb_people, ['class' => 'form-control']) !!}
+            </div>
+            <div class="form-group">
+                {!! Form::label('arrive_at', "Date d'arrivée") !!}
+                {!! Form::text('arrive_at', $reservation->arrive_at, ['class' => 'form-control']) !!}
+            </div>
+            <div class="form-group">
+                {!! Form::label('leave_at', "Date de départ") !!}
+                {!! Form::text('leave_at', $reservation->leave_at, ['class' => 'form-control']) !!}
+            </div>
+
+            {!! Form::button('Envoyer', ['class' => 'btn btn-primary', 'type' => 'submit']) !!}
+            
+        {!! Form::close() !!}
+
+        @if(!$reservation->is_valid)
+        {!! Form::open(['url' => route('reservation.update', $reservation), 'method' => 'PUT']) !!}
+
+            {!! Form::hidden('name', $reservation->name) !!}
+            {!! Form::hidden('forename', $reservation->forename) !!}
+            {!! Form::hidden('email', $reservation->email) !!}
+            {!! Form::hidden('nb_people', $reservation->nb_people) !!}
+            {!! Form::hidden('arrive_at', $reservation->arrive_at) !!}
+            {!! Form::hidden('leave_at', $reservation->leave_at) !!}
+            {!! Form::hidden('is_valid', true) !!}
+
+            {!! Form::button('Valider la Réservation', ['class' => 'btn btn-primary', 'type' => 'submit']) !!}
+
+        {!! Form::close() !!}
+        @endif
+
+
+        {!! Form::open(['url' => route('reservation.destroy', $reservation), 'method' => 'DELETE']) !!}
+            {!! Form::button('Supprimer', ['class' => 'btn btn-danger', 'type' => 'submit']) !!}
+        {!! Form::close() !!}
+    </div>
+@endsection
