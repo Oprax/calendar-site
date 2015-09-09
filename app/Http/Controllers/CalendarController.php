@@ -45,8 +45,8 @@ class CalendarController extends Controller
 
     private function month($year, $month)
     {
-        $dt = Carbon::createFromDate($year, $month, 1);
-        $dt_diff = Carbon::createFromDate($year, $month, 1)->addMonth();
+        $dt = Carbon::createFromDate($year, 1, 1);
+        $dt_diff = Carbon::instance($dt)->endOfYear();
 
         $reservations = Reservation::whereBetween('arrive_at', [$dt, $dt_diff])
         ->orWhere(function ($query) use ($dt, $dt_diff) {
