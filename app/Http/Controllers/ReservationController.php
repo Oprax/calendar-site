@@ -181,190 +181,190 @@ class ReservationController extends Controller
             'name' => 'Schneider',
             'forename' => 'Fernand',
             'email' => 'null',
-            'arrive_at' => '2013-04-22',
-            'leave_at' => '2013-05-05',
+            'arrive_at' => '22/04/2013',
+            'leave_at' => '05/05/2013',
             'nb_people' => 1,
             'is_valid' => true
-        ])->save();
+        ]);
 
         Reservation::create([
             'name' => 'Berthold',
             'forename' => 'Patricia',
             'email' => 'null',
-            'arrive_at' => '2013-05-17',
-            'leave_at' => '2013-05-26',
+            'arrive_at' => '17/05/2013',
+            'leave_at' => '26/05/2013',
             'nb_people' => 2,
             'is_valid' => true
-        ])->save();
+        ]);
 
         Reservation::create([
             'name' => 'Schneider',
             'forename' => 'Fernand',
             'email' => 'null',
-            'arrive_at' => '2013-06-30',
-            'leave_at' => '2013-09-01',
+            'arrive_at' => '30/06/2013',
+            'leave_at' => '01/09/2013',
             'nb_people' => 2,
             'is_valid' => true
-        ])->save();
+        ]);
 
         Reservation::create([
             'name' => 'Wendling',
             'forename' => 'Philippe',
             'email' => 'null',
-            'arrive_at' => '2013-07-06',
-            'leave_at' => '2013-07-12',
+            'arrive_at' => '06/07/2013',
+            'leave_at' => '12/07/2013',
             'nb_people' => 4,
             'is_valid' => true
-        ])->save();
+        ]);
 
         Reservation::create([
             'name' => 'Schneider',
             'forename' => 'Brigitte',
             'email' => 'null',
-            'arrive_at' => '2013-07-16',
-            'leave_at' => '2013-08-02',
+            'arrive_at' => '16/07/2013',
+            'leave_at' => '02/08/2013',
             'nb_people' => 2,
             'is_valid' => true
-        ])->save();
+        ]);
 
         Reservation::create([
             'name' => 'Muller',
             'forename' => 'Eric',
             'email' => 'null',
-            'arrive_at' => '2013-08-10',
-            'leave_at' => '2013-08-18',
+            'arrive_at' => '10/08/2013',
+            'leave_at' => '18/08/2013',
             'nb_people' => 3,
             'is_valid' => true
-        ])->save();
+        ]);
 
         Reservation::create([
             'name' => 'Demeyer',
             'forename' => 'Claude',
             'email' => 'null',
-            'arrive_at' => '2013-08-16',
-            'leave_at' => '2013-08-19',
+            'arrive_at' => '16/08/2013',
+            'leave_at' => '19/08/2013',
             'nb_people' => 4,
             'is_valid' => true
-        ])->save();
+        ]);
 
         Reservation::create([
             'name' => 'Schneider',
             'forename' => 'Fernand',
             'email' => 'null',
-            'arrive_at' => '2014-04-18',
-            'leave_at' => '2014-05-04',
+            'arrive_at' => '18/04/2014',
+            'leave_at' => '04/05/2014',
             'nb_people' => 1,
             'is_valid' => true
-        ])->save();
+        ]);
 
         Reservation::create([
             'name' => 'Muller',
             'forename' => 'Sylvie',
             'email' => 'null',
-            'arrive_at' => '2014-04-28',
-            'leave_at' => '2014-05-04',
+            'arrive_at' => '28/04/2014',
+            'leave_at' => '04/05/2014',
             'nb_people' => 6,
             'is_valid' => true
-        ])->save();
+        ]);
 
         Reservation::create([
             'name' => 'Berthold',
             'forename' => 'Patricia',
             'email' => 'null',
-            'arrive_at' => '2014-05-17',
-            'leave_at' => '2014-06-01',
+            'arrive_at' => '17/05/2014',
+            'leave_at' => '01/06/2014',
             'nb_people' => 2,
             'is_valid' => true
-        ])->save();
+        ]);
 
         Reservation::create([
             'name' => 'Berthold',
             'forename' => 'Céline',
             'email' => 'null',
-            'arrive_at' => '2014-05-22',
-            'leave_at' => '2014-05-25',
+            'arrive_at' => '22/05/2014',
+            'leave_at' => '25/05/2014',
             'nb_people' => 1,
             'is_valid' => true
-        ])->save();
+        ]);
 
         Reservation::create([
             'name' => 'Muller',
             'forename' => 'Sylvie',
             'email' => 'null',
-            'arrive_at' => '2014-07-10',
-            'leave_at' => '2014-07-19',
+            'arrive_at' => '10/07/2014',
+            'leave_at' => '19/07/2014',
             'nb_people' => 3,
             'is_valid' => true
-        ])->save();
+        ]);
 
         Reservation::create([
             'name' => 'Schneider',
             'forename' => 'Brigitte',
             'email' => 'null',
-            'arrive_at' => '2014-07-13',
-            'leave_at' => '2014-08-02',
+            'arrive_at' => '13/07/2014',
+            'leave_at' => '02/08/2014',
             'nb_people' => 1,
             'is_valid' => true
-        ])->save();
+        ]);
 
         Reservation::create([
             'name' => 'Schneider',
             'forename' => 'Fernand',
             'email' => 'null',
-            'arrive_at' => '2014-06-28',
-            'leave_at' => '2014-08-31',
+            'arrive_at' => '28/06/2014',
+            'leave_at' => '31/08/2014',
             'nb_people' => 1,
             'is_valid' => true
-        ])->save();
+        ]);
 
         Reservation::create([
             'name' => 'Killich',
             'forename' => 'Nicolas',
             'email' => 'null',
-            'arrive_at' => '2014-06-30',
-            'leave_at' => '2014-08-02',
+            'arrive_at' => '30/26/2014',
+            'leave_at' => '02/08/2014',
             'nb_people' => 1,
             'is_valid' => true
-        ])->save();
+        ]);
 
         Reservation::create([
             'name' => 'Muller',
             'forename' => 'Laura',
             'email' => 'null',
-            'arrive_at' => '2014-07-11',
-            'leave_at' => '2014-07-19',
+            'arrive_at' => '11/07/2014',
+            'leave_at' => '19/07/2014',
             'nb_people' => 1,
             'is_valid' => true
-        ])->save();
+        ]);
 
         Reservation::create([
             'name' => 'Schneider',
             'forename' => 'Fernand',
             'email' => 'null',
-            'arrive_at' => '2015-02-22',
-            'leave_at' => '2015-03-08',
+            'arrive_at' => '22/02/2015',
+            'leave_at' => '08/03/2015',
             'nb_people' => 1,
             'is_valid' => true
-        ])->save();
+        ]);
 
         Reservation::create([
             'name' => 'Berthold',
             'forename' => 'Patricia',
             'email' => 'null',
-            'arrive_at' => '2015-05-10',
-            'leave_at' => '2015-05-25',
+            'arrive_at' => '10/05/2015',
+            'leave_at' => '25/05/2015',
             'nb_people' => 2,
             'is_valid' => true
-        ])->save();
+        ]);
 
         Reservation::create([
             'name' => 'Schneider',
             'forename' => 'Fernand',
             'email' => 'null',
-            'arrive_at' => '2015-04-26',
-            'leave_at' => '2015-05-10',
+            'arrive_at' => '26/04/2015',
+            'leave_at' => '10/05/2015',
             'nb_people' => 2,
             'is_valid' => true
-        ])->save();
+        ]);
     }
 }
