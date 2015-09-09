@@ -74,7 +74,7 @@ class ReservationController extends Controller
 
         $reservation->save();
 
-        $this->sendMail('emails.new', $reservation->toArray(), ['romuller67@hotmail.fr']);
+        $this->sendMail('emails.new', $reservation->toArray(), ['romuller67@hotmail.fr', 'schneider.fernand@evc.net']);
         
         if($request->ajax()) {
             return $reservation;

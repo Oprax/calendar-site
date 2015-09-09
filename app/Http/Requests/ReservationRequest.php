@@ -28,7 +28,7 @@ class ReservationRequest extends Request
             'forename'  => 'required|max:50|min:2',
             'email'     => 'required|email',
             'nb_people' => 'required|integer|min:1|max:15',
-            'arrive_at' => 'required|date_format:d/m/Y|after:today',
+            'arrive_at' => 'required|date_format:d/m/Y',
             'leave_at'  => 'required|date_format:d/m/Y|after:' . $this->input('arrive_at'),
         ];
     }

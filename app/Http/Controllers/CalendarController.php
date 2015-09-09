@@ -48,10 +48,7 @@ class CalendarController extends Controller
         $dt = Carbon::createFromDate($year, 1, 1);
         $dt_diff = Carbon::createFromDate($year, 1, 1)->endOfYear();
 
-        $reservations = Reservation::whereBetween('arrive_at', [$dt, $dt_diff])
-        ->orWhere(function ($query) use ($dt, $dt_diff) {
-            $query->whereBetween('leave_at', [$dt, $dt_diff]);
-        })->get();
+        $reservations = Reservation::whereBetween('arrive_at', [$dt, $dt_diff])->get();
 
         $tmp = [];
 
@@ -139,10 +136,7 @@ class CalendarController extends Controller
         $dt = Carbon::createFromDate($year, 1, 1);
         $dt_diff = Carbon::createFromDate($year, 1, 1)->endOfYear();
 
-        $reservations = Reservation::whereBetween('arrive_at', [$dt, $dt_diff])
-        ->orWhere(function ($query) use ($dt, $dt_diff) {
-            $query->whereBetween('leave_at', [$dt, $dt_diff]);
-        })->get();
+        $reservations = Reservation::whereBetween('arrive_at', [$dt, $dt_diff])->get();
 
         $tmp = [];
 
