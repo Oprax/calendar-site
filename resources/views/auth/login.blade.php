@@ -26,7 +26,7 @@
 
             <div class="form-group">
                 {!! Form::button('Connexion', ['class' => 'btn btn-primary', 'type' => 'submit']) !!}
-                <a class="btn btn-primary" href="{{ route('auth.register') }}">S'inscrire</a>
+                {{-- <a class="btn btn-primary" href="{{ route('auth.register') }}">S'inscrire</a> --}}
             </div>
 
         {!! Form::close() !!}
