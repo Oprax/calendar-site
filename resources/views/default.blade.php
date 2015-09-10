@@ -18,15 +18,13 @@
         <div class="navbar-inner">
             <div class="container-fluid">
                 <a class="brand" href="{{ route('welcome') }}">Montesquieu</a>
-                <div class="nav-collapse collapse">
                     <p class="navbar-text pull-right">
                     @if(Auth::check())
-                        {{ Auth::user()->name }} &bull; <a href="{{ route('auth.logout') }}" class="navbar-link">Se déconnecter</a>
+                        {{ Auth::user()->name }} &bull; <a href="{{ route('auth.logout') }}" class="navbar-link">Déconnexion</a>
                     @else
-                        <a href="{{ route('auth.login') }}" class="navbar-link">Se connecter</a>
+                        <a href="{{ route('auth.login') }}" class="navbar-link">Connexion</a>
                     @endif
                     </p>
-                </div><!--/.nav-collapse -->
             </div>
         </div>
     </div>

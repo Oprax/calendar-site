@@ -2,6 +2,19 @@
 
 @section('title', $title)
 
+<?php
+if (Auth::check()) {
+    $user = Auth::user();
+
+    if(empty($forename)) {
+        $forename = $user->name;
+    }
+    if(empty($email)) {
+        $email = $user->email;
+    }
+}
+?>
+
 @section('content')
     <ul class="breadcrumb">
         <li><a href="{{ route('welcome') }}">Accueil</a> <span class="divider">/</span></li>

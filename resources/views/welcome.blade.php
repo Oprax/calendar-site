@@ -24,7 +24,7 @@
         <div class="span5">
             <h2>Réservations Antérieurs</h2>
             <ul class="nav nav-list">
-            @for($y = 2012; $y < $now; $y++)
+            @for($y = 2013; $y < $now; $y++)
                 <li>
                    <h5>
                         <a href="{{ route('calendar.main', ['year' => $y]) }}">
