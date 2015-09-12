@@ -24,6 +24,11 @@ Route::resource('reservation', 'ReservationController');
 Route::get('calendar/{year}/{month?}/{day?}', ['uses' => 'CalendarController@main', 'as' => 'calendar.main'])
 ->where(['year' => '20\d\d', 'month' => '\d{1,2}', 'day' => '\d{1,2}']);
 
+Route::get('stats', ['uses' => 'StatsController@index', 'as' => 'stats.index']);
+
+Route::get('stats/{year}', ['uses' => 'StatsController@chart', 'as' => 'stats.chart'])
+->where(['year' => '20\d\d']);
+
 // Authentication routes...
 Route::get('auth/login', ['as' => 'auth.login', 'uses' => 'Auth\AuthController@getLogin']);
 Route::post('auth/login', 'Auth\AuthController@postLogin');

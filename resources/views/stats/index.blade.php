@@ -1,19 +1,25 @@
 @extends('default')
 
-@section('title', 'Montesquieu')
+@section('title', $title)
 
 <?php $now = date('Y'); ?>
 
 @section('content')
+    <ul class="breadcrumb">
+        <li><a href="{{ route('welcome') }}">Accueil</a> <span class="divider">/</span></li>
+        <li class="active">{{ $title }}</li>
+    </ul>
+    
     <h1>Montesquieu-des-Albères</h1>
+    <h2>Satistiques</h2>
     <div class="row-fluid">
         <div class="span5">
-            <h2>Réservations</h2>
+            <h3>Réservations</h3>
             <ul class="nav nav-list">
             @for($y = $now; $y <= ($now + 2); $y++)
                 <li>
                    <h5>
-                        <a href="{{ route('calendar.main', ['year' => $y]) }}">
+                        <a href="{{ route('stats.chart', ['year' => $y]) }}">
                            <i class="icon-chevron-right"></i> {{ $y }}
                         </a>
                     </h5>
@@ -22,12 +28,12 @@
             </ul>
         </div>
         <div class="span5">
-            <h2>Réservations Antérieurs</h2>
+            <h3>Réservations Antérieurs</h3>
             <ul class="nav nav-list">
             @for($y = 2013; $y < $now; $y++)
                 <li>
                    <h5>
-                        <a href="{{ route('calendar.main', ['year' => $y]) }}">
+                        <a href="{{ route('stats.chart', ['year' => $y]) }}">
                            <i class="icon-chevron-right"></i> {{ $y }}
                         </a>
                     </h5>
@@ -36,13 +42,4 @@
             </ul>
         </div>
     </div>
-    <div class="row-fluid">
-        <p>
-            Vous pouvez aussi faire une <a href="{{ route('reservation.create') }}">réservation</a>.
-            @if(Auth::check())
-            Liste des <a href="{{ route('reservation.index') }}">réservations</a>. <a href="{{ route('stats.index') }}">Statistiques</a>
-            @endif
-        </p>
-    </div>
-
 @endsection
