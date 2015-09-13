@@ -2,6 +2,12 @@
 
 @section('title', $title)
 
+
+@section('css')
+        <link href="{{ route('welcome') }}/static/css/datepicker/default.css" rel="stylesheet" />
+        <link href="{{ route('welcome') }}/static/css/datepicker/default.date.css" rel="stylesheet" />
+@endsection
+
 @section('content')
     <ul class="breadcrumb">
         <li><a href="{{ route('welcome') }}">Accueil</a> <span class="divider">/</span></li>
@@ -63,4 +69,18 @@
             {!! Form::button('Supprimer', ['class' => 'btn btn-danger', 'type' => 'submit']) !!}
         {!! Form::close() !!}
     </div>
+@endsection
+
+@section('javascript')
+        <script src="{{ route('welcome') }}/static/js/datepicker/picker.js"></script>
+        <script src="{{ route('welcome') }}/static/js/datepicker/picker.date.js"></script>
+        <script src="{{ route('welcome') }}/static/js/datepicker/fr_FR.js"></script>
+        <script type="text/javascript">
+        var datepickerOption = {
+            formatSubmit: 'dd/mm/yyyy',
+            format: 'dd/mm/yyyy'
+        };
+        $('#arrive_at').pickadate(datepickerOption);
+        $('#leave_at').pickadate(datepickerOption);
+        </script>
 @endsection

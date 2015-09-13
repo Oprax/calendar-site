@@ -13,6 +13,7 @@
         }
         </style>
         <link href="{{ route('welcome') }}/static/css/bootstrap-responsive.min.css" rel="stylesheet" />
+        @yield('css')
     </head>
     <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -35,5 +36,6 @@
         </div>
         <script src="{{ route('welcome') }}/static/js/jquery.min.js"></script>
         <script src="{{ route('welcome') }}/static/js/bootstrap.min.js"></script>
+        @yield('javascript')
     </body>
 </html>
