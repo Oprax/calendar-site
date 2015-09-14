@@ -63,5 +63,5 @@ class AuthController extends Controller
         ]);
     }
 
-    protected $redirectPath = '/reservation';
+    protected $redirectPath = '/';
 }
