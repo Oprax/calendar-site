@@ -44,5 +44,21 @@
             @endif
         </p>
     </div>
+    <div class="row-fluid">
+        <h3>L'église Saint-Saturnin de Montesquieu-des-Albères</h3>
+        <div class="span7 text-center">
+            <p>
+                <a title="By AC (Own work) [GFDL (http://www.gnu.org/copyleft/fdl.html) or CC BY-SA 3.0 (http://creativecommons.org/licenses/by-sa/3.0)], via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File%3AEglise_de_Montesquieu-des-Alb%C3%A8res_01.JPG">
+                    <img  class="img-polaroid" width="512" alt="Eglise de Montesquieu-des-Albères 01" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Eglise_de_Montesquieu-des-Alb%C3%A8res_01.JPG/512px-Eglise_de_Montesquieu-des-Alb%C3%A8res_01.JPG"/>
+                </a>
+            </p>
+            <p>
+                L'église a été consacrée le 10 juin 1123 par l'évêque d'Elne. Bien que l'édifice ait subi quelques remaniements et ajouts au fil des siècles, il est à peu près identique à son aspect d'origine.
+            </p>
+            <p>
+                <small>Source : <a href="https://fr.wikipedia.org/wiki/%C3%89glise_Saint-Saturnin_de_Montesquieu-des-Alb%C3%A8res">Wikipédia</a></small>
+            </p>
+        </div>
+    </div>
 
 @endsection
