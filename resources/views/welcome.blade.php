@@ -2,7 +2,9 @@
 
 @section('title', 'Montesquieu')
 
-<?php $now = date('Y'); ?>
+<?php
+$now = date('Y');
+?>
 
 @section('content')
     <h1>Montesquieu-des-Albères</h1>
@@ -39,19 +41,21 @@
     <div class="row-fluid">
         <p>
             Vous pouvez aussi faire une <a href="{{ route('reservation.create') }}">réservation</a>.
-            @if(Auth::check())
-            Liste des <a href="{{ route('reservation.index') }}">réservations</a>. <a href="{{ route('stats.index') }}">Statistiques</a>
-            @endif
         </p>
+        @if(Auth::check())
+        <p>
+            Liste des <a href="{{ route('reservation.index') }}">réservations</a>. Interface <a href="{{ route('stats.index') }}">Statistiques</a>
+        </p>
+        @endif
     </div>
     <div class="row-fluid">
         <h3>L'église Saint-Saturnin de Montesquieu-des-Albères</h3>
-        <div class="span7 text-center">
-            <p>
-                <a title="By AC (Own work) [GFDL (http://www.gnu.org/copyleft/fdl.html) or CC BY-SA 3.0 (http://creativecommons.org/licenses/by-sa/3.0)], via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File%3AEglise_de_Montesquieu-des-Alb%C3%A8res_01.JPG">
-                    <img  class="img-polaroid" width="512" alt="Eglise de Montesquieu-des-Albères 01" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Eglise_de_Montesquieu-des-Alb%C3%A8res_01.JPG/512px-Eglise_de_Montesquieu-des-Alb%C3%A8res_01.JPG"/>
-                </a>
-            </p>
+        <p>
+            <a title="By AC (Own work) [GFDL (http://www.gnu.org/copyleft/fdl.html) or CC BY-SA 3.0 (http://creativecommons.org/licenses/by-sa/3.0)], via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File%3AEglise_de_Montesquieu-des-Alb%C3%A8res_01.JPG">
+                <img  class="img-polaroid" width="512" alt="Eglise de Montesquieu-des-Albères 01" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Eglise_de_Montesquieu-des-Alb%C3%A8res_01.JPG/512px-Eglise_de_Montesquieu-des-Alb%C3%A8res_01.JPG"/>
+            </a>
+        </p>
+        <div class="span5 text-center">
             <p>
                 L'église a été consacrée le 10 juin 1123 par l'évêque d'Elne. Bien que l'édifice ait subi quelques remaniements et ajouts au fil des siècles, il est à peu près identique à son aspect d'origine.
             </p>
