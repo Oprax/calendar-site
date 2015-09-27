@@ -42,7 +42,7 @@
             borderWidth: 0
         },
         series: [{
-            name: 'Pourcent',
+            name: "Taux d'occupation",
             data: monthly.data
         }]
     });
@@ -90,7 +90,7 @@
                 borderWidth: 0
             },
             series: [{
-                name: 'Pourcent',
+                name: "Taux d'occupation",
                 data: daily[index].data
             }]
         });
