@@ -42,7 +42,7 @@
             borderWidth: 0
         },
         series: [{
-            name: year,
+            name: 'Pourcent',
             data: monthly.data
         }]
     });
@@ -90,7 +90,7 @@
                 borderWidth: 0
             },
             series: [{
-                name: month,
+                name: 'Pourcent',
                 data: daily[index].data
             }]
         });
