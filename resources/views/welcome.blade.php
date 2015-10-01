@@ -40,11 +40,11 @@ $now = date('Y');
     </div>
     <div class="row-fluid">
         <p>
-            Vous pouvez aussi faire une <a href="{{ route('reservation.create') }}">réservation</a>.
+            Vous pouvez aussi effectuer une <a href="{{ route('reservation.create') }}">réservation</a>.
         </p>
         @if(Auth::check())
         <p>
-            Liste des <a href="{{ route('reservation.index') }}">réservations</a>. Interface <a href="{{ route('stats.index') }}">Statistiques</a>
+            Vous pouvez accédez à la liste des <a href="{{ route('reservation.index') }}">réservations</a>. Vous pouvez également voir l'évolution des réservations sous forme de <a href="{{ route('stats.index') }}">statistique</a>.
         </p>
         @endif
     </div>
@@ -52,7 +52,7 @@ $now = date('Y');
         <h3>L'église Saint-Saturnin de Montesquieu-des-Albères</h3>
         <p>
             <a title="By AC (Own work) [GFDL (http://www.gnu.org/copyleft/fdl.html) or CC BY-SA 3.0 (http://creativecommons.org/licenses/by-sa/3.0)], via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File%3AEglise_de_Montesquieu-des-Alb%C3%A8res_01.JPG">
-                <img  class="img-polaroid" width="512" alt="Eglise de Montesquieu-des-Albères 01" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Eglise_de_Montesquieu-des-Alb%C3%A8res_01.JPG/512px-Eglise_de_Montesquieu-des-Alb%C3%A8res_01.JPG"/>
+                <img  class="img-polaroid" width="512" alt="Eglise de Montesquieu-des-Albères" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Eglise_de_Montesquieu-des-Alb%C3%A8res_01.JPG/512px-Eglise_de_Montesquieu-des-Alb%C3%A8res_01.JPG"/>
             </a>
         </p>
         <div class="span5 text-center">
