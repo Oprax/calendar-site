@@ -10,6 +10,10 @@ class Reservation extends Model
 {
     protected $fillable = ['email', 'name', 'forename', 'arrive_at', 'leave_at', 'nb_people', 'is_valid'];
 
+    /**
+     * @param $query
+     * @return mixed
+     */
     public function scopePublished($query)
     {
         return $query->where('is_valid', true);

@@ -5,6 +5,7 @@ Homestead.json
 .env
 /composer.lock
 Envoy.blade.php
+/.idea
 
 
 
