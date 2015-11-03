@@ -12,12 +12,14 @@
         <h1>{{ $reservation->name }} {{ $reservation->forename }}</h1>
         <p>Du {{ $reservation->arrive_at }} au {{ $reservation->leave_at }} pour {{ $reservation->nb_people }} personne(s)</p>
         <p>
-            <a class="btn btn-primary" href="{{ route('reservation.edit', $reservation) }}">
-            Modifier
-            </a>
+        @if(Auth::check())
+            <a class="btn btn-primary" href="{{ route('reservation.edit', $reservation) }}">Modifier</a>
             {!! Form::open(['url' => route('reservation.destroy', $reservation), 'method' => 'DELETE']) !!}
               <button type="submit" class="btn btn-danger">Supprimer</button>
             {!! Form::close() !!}
+        @else
+            <a class="btn btn-primary" href="{{ route('reservation.show', $reservation) }}">Voir</a>
+        @endif
         </p>
     </div>
     @endforeach

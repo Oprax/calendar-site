@@ -40,11 +40,11 @@ $now = date('Y');
     </div>
     <div class="row-fluid">
         <p>
-            Vous pouvez aussi effectuer une <a href="{{ route('reservation.create') }}">réservation</a>.
+            Vous pouvez aussi effectuer une <a href="{{ route('reservation.create') }}">réservation</a> ou voir la liste des <a href="{{ route('reservation.index') }}">réservations</a>.
         </p>
         @if(Auth::check())
         <p>
-            Vous pouvez accédez à la liste des <a href="{{ route('reservation.index') }}">réservations</a>. Vous pouvez également voir l'évolution des réservations sous forme de <a href="{{ route('stats.index') }}">statistique</a>.
+            Vous pouvez également voir l'évolution des réservations sous forme de <a href="{{ route('stats.index') }}">statistique</a>.
         </p>
         @endif
     </div>

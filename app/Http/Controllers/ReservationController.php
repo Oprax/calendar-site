@@ -23,7 +23,7 @@ class ReservationController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['create', 'store', 'show']]);
+        $this->middleware('auth', ['except' => ['create', 'store', 'show', 'index']]);
         Carbon::setToStringFormat('d/m/Y');
     }
 
