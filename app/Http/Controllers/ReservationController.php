@@ -30,12 +30,17 @@ class ReservationController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  Request  $request
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $title = "Réservations";
-        $reservations = Reservation::get();
+        $reservations = $this->buildFilterQuery($request->all());
+        
+        if($request->ajax()) {
+            return $reservation;
+        }
         return view('reservation.index', compact('title', 'reservations'));
     }
 
@@ -173,5 +178,55 @@ class ReservationController extends Controller
         {
             $message->to($to);
         });
+    }
+
+    /**
+     * Helper to build Query
+     * 
+     * @param  array  $params
+     * @return Illuminate\Database\Eloquent\Collection
+     */
+    private function buildFilterQuery(array $params)
+    {
+        $ops = [
+            'eq'  => '=',
+            'lte' => '<=',
+            'gte' => '>=',
+            'lt'  => '<',
+            'gt'  => '>',
+        ];
+
+        $fields = ['name', 'forename', 'arrive_at', 'leave_at', 'nb_people'];
+
+        $limit = 50;
+        $page = 1;
+
+        if (isset($params['limit']) and $params['limit'] > 0 and $params['limit'] < 100) {
+            $limit = (int) $params['limit'];
+        }
+
+        if (isset($params['page']) and $params['page'] > 0) {
+            $page = (int) $params['page'];
+        }
+
+        $page -= 1;
+        $skipping = (int) ($page * $limit);
+
+        $reservation = Reservation::skip($skipping)->take($limit);
+
+        foreach ($params as $param => $value)
+        {
+            $tmp = explode('__', $param);
+
+            if (in_array($tmp[0], $fields) and in_array($tmp[1], array_keys($ops)))
+            {
+                $field = $tmp[0];
+                $op = $ops[$tmp[1]];
+
+                $reservation = $reservation->where($field, $op, $value);
+            }
+        }
+
+        return $reservation->get();
     }
 }
