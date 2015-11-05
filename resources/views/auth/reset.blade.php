@@ -7,8 +7,6 @@
         <h1>Réinitialisation</h1>
 
         {!! Form::open(['url' => route('auth.reset'), 'method' => 'POST']) !!}
-
-            {!! Form::hidden('token', $token) !!}
             <div class="form-group">
                 {!! Form::label('email', "Email") !!}
                 {!! Form::email('email', isset($email) ? $email : null, ['class' => 'form-control']) !!}
