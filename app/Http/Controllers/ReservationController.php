@@ -218,7 +218,7 @@ class ReservationController extends Controller
         {
             $tmp = explode('__', $param);
 
-            if (in_array($tmp[0], $fields) and in_array($tmp[1], array_keys($ops)))
+            if (isset($tmp[0]) and in_array($tmp[0], $fields) and isset($tmp[1]) and in_array($tmp[1], array_keys($ops)))
             {
                 $field = $tmp[0];
                 $op = $ops[$tmp[1]];
