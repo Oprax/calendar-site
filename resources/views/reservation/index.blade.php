@@ -18,15 +18,14 @@
         <div id="form-content">
         </div>
 
-        <button type="button" data-toggle="modal" data-target="#modal-add-filter" class="btn">Ajouter nouveau filtre</button>
-
-        <button type="submit" class="btn btn-primary">OK</button>
+        <p><button type="button" data-toggle="modal" data-target="#modal-add-filter" class="btn">Ajouter nouveau filtre</button></p>
+        <p><button type="submit" class="btn btn-primary">OK</button></p>
     </form>
 
     <div id="modal-add-filter" class="modal hide fade">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h3>Modal header</h3>
+            <h3>Filtre</h3>
         </div>
         <div class="modal-body">
             <form id="filter-type">
@@ -111,7 +110,7 @@
                 if ($('#' + type).length){
                     alert('Ce filtre existe déjà !');
                 } else {
-                    $('#form-content').append('<div id="form-' + type + '">' +
+                    var html = '<div id="form-' + type + '">' +
                     '   <label>' + label[type] + ' :</label>' +
                     '   <select id="select-' + type + '">' +
                     '       <option value="eq" selected>égale à</option>' +
@@ -121,17 +120,31 @@
                     '       <option value="gt">plus grand que</option>' +
                     '   </select>' +
                     '   <input type="text" id="' + type + '" name="' + type + '">' +
-                    '   <button type="button" data-del="#form-' + type + '" class="btn">Supprimer ce filtre</button>' +
-                    '</div>');
+                    '   <button type="button" data-del="#form-' + type + '" class="btn btn-danger">Supprimer ce filtre</button>' +
+                    '</div>';
+
+
+                    if (type == 'name' || type == 'forename') {
+                        html = '<div id="form-' + type + '">' +
+                        '   <label>' + label[type] + ' :</label>' +
+                        '   <input type="text" id="' + type + '" name="' + type + '__eq">' +
+                        '   <button type="button" data-del="#form-' + type + '" class="btn btn-danger">Supprimer ce filtre</button>' +
+                        '</div>';
+                    }
+
+                    $('#form-content').append(html);
 
                     var op = $('#select-' + type + ' option:selected').val();
 
-                    $('#' + type).attr('name', type + '__' + op);
-
-                    $('#select-' + type).change(function () {
-                        op = $('#select-' + type + ' option:selected').val();
+                    if (op !== undefined) {
                         $('#' + type).attr('name', type + '__' + op);
-                    });
+
+                        $('#select-' + type).change(function () {
+                            op = $('#select-' + type + ' option:selected').val();
+                            $('#' + type).attr('name', type + '__' + op);
+                        });
+                    }
+
 
                     $('button[data-del]').click(function() {
                         var selector = $(this).attr('data-del');
