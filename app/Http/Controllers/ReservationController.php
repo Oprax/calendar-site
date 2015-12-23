@@ -79,7 +79,16 @@ class ReservationController extends Controller
 
         $reservation->save();
 
-        $this->sendMail('emails.new', $reservation->toArray(), ['romuller67@hotmail.fr', 'schneider.fernand@evc.net']);
+        $dest = [];
+        $env = app()->environment();
+
+        if($env == 'production') {
+            $dest = ['romuller67@hotmail.fr', 'schneider.fernand@evc.net'];
+        } else {
+            $dest = ['romuller67@hotmail.fr', 'aphrox.romuller@gmail.com'];
+        }
+
+        $this->sendMail('emails.new', $reservation->toArray(), $dest);
         
         if($request->ajax()) {
             return $reservation;
