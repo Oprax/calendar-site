@@ -45,10 +45,10 @@
                                     <div><!--[if mso]>
                                       <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="{{ route('reservation.show', compact('id')) }}" style="height:36px;v-text-anchor:middle;width:200px;" arcsize="56%" strokecolor="#adadad" fillcolor="#fafafb">
                                         <w:anchorlock/>
-                                        <center style="color:#2f353e;font-family:sans-serif;font-size:13px;font-weight:bold;">Résumé de votre réservation</center>
+                                        <center style="color:#2f353e;font-family:sans-serif;font-size:13px;font-weight:bold;">Voir la réservation</center>
                                       </v:roundrect>
                                     <![endif]--><a href="{{ route('reservation.show', compact('id')) }}"
-                                    style="background-color:#fafafb;border:1px solid #adadad;border-radius:20px;color:#2f353e;display:inline-block;font-family:sans-serif;font-size:13px;font-weight:bold;line-height:36px;text-align:center;text-decoration:none;width:200px;-webkit-text-size-adjust:none;mso-hide:all;">Résumé de votre réservation</a>
+                                    style="background-color:#fafafb;border:1px solid #adadad;border-radius:20px;color:#2f353e;display:inline-block;font-family:sans-serif;font-size:13px;font-weight:bold;line-height:36px;text-align:center;text-decoration:none;width:200px;-webkit-text-size-adjust:none;mso-hide:all;">Voir la réservation</a>
                                     </div>
                                 </td>
                             </tr>
