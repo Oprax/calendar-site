@@ -140,8 +140,13 @@ class ReservationController extends Controller
         $reservation->update($request->all());
         $reservation->save();
 
+        $reservationData = $reservation->toArray();
+
+        $reservationData['arrive_at'] = $reservation->arrive_at->format('d/m/Y');
+        $reservationData['leave_at'] = $reservation->leave_at->format('d/m/Y');
+
         if($reservation->is_valid and $reservation->is_valid != $is_valid) {
-            $this->sendMail('emails.confirm', $reservation->toArray());
+            $this->sendMail('emails.confirm', $reservationData);
         }
 
         if($request->ajax()) {
@@ -159,9 +164,15 @@ class ReservationController extends Controller
     public function destroy(Request $request, $id)
     {
         $reservation = Reservation::findOrFail($id);
+
+        $reservationData = $reservation->toArray();
+
+        $reservationData['arrive_at'] = $reservation->arrive_at->format('d/m/Y');
+        $reservationData['leave_at'] = $reservation->leave_at->format('d/m/Y');
+
         $reservation->delete();
 
-        $this->sendMail('emails.refuse', $reservation->toArray());
+        $this->sendMail('emails.refuse', $reservationData);
 
         if($request->ajax()) {
             return $reservation;
@@ -183,7 +194,7 @@ class ReservationController extends Controller
             $to = $data['email'];
         }
 
-        return \Mail::send([$view, $view.'-txt'], $data, function ($message) use ($to)
+        return \Mail::queue([$view, $view.'-txt'], $data, function ($message) use ($to)
         {
             $message->to($to);
         });
