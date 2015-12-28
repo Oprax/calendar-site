@@ -7,12 +7,27 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ReservationTest extends TestCase
 {
-    public $faker;
+    public $faker, $formatter;
+    private $dt_arrive, $dt_leave, $name, $forename, $email, $nb_people;
 
     public function setUp()
     {
-    	parent::setUp();
-    	$this->faker = Faker\Factory::create('fr_FR'); 
+        parent::setUp();
+
+        $this->formatter = 'd/m/Y';
+
+        $this->faker = Faker\Factory::create('fr_FR');
+
+        $this->dt_arrive = $this->faker->dateTimeBetween('now', '+ 5 days')
+                                       ->format($this->formatter);
+
+        $this->dt_leave  = $this->faker->dateTimeBetween('+ 5 days', '+ 30 days')
+                                       ->format($this->formatter);
+
+        $this->name = $this->faker->firstName;
+        $this->forename = $this->faker->lastName;
+        $this->email = $this->faker->email;
+        $this->nb_people = $this->faker->numberBetween($min = 1, $max = 15);
     }
 
     /**
@@ -34,80 +49,36 @@ class ReservationTest extends TestCase
              ->see('Formulaire de Réservation')
              ->see('10/02/2015')
              ->see('10/08/2015');
+    }
 
-        $dt_arrive = $this->faker->dateTimeBetween('now', '+ 5 days')->format('d/m/Y');
-        $dt_leave  = $this->faker->dateTimeBetween('+ 5 days', '+ 30 days')->format('d/m/Y');
-
-        $name = $this->faker->firstName;
-        $forename = $this->faker->lastName;
-        $email = $this->faker->email;
-        $nb_people = $this->faker->numberBetween($min = 1, $max = 15);
-
+    public function testCreateOK()
+    {
         // Good
         $this->visit('/reservation/create')
              ->see('Formulaire de Réservation')
-             ->type($name, 'name')
-             ->type($forename, 'forename')
-             ->type($email, 'email')
-             ->type($nb_people, 'nb_people')
-             ->type($dt_arrive, 'arrive_at')
-             ->type($dt_leave, 'leave_at')
+             ->type($this->name, 'name')
+             ->type($this->forename, 'forename')
+             ->type($this->email, 'email')
+             ->type($this->nb_people, 'nb_people')
+             ->type($this->dt_arrive, 'arrive_at')
+             ->type($this->dt_leave, 'leave_at')
              ->press('Envoyer')
              ->see('Réservation')
-             ->see(htmlentities("De $name $forename pour $nb_people personne(s).", ENT_QUOTES))
+             ->see(htmlentities("De $this->name $this->forename pour $this->nb_people personne(s).", ENT_QUOTES))
              ->see('Refusée');
+    }
 
-        //// nb_people ////
-
-        // nb_people < 1
-        $this->visit('/reservation/create')
-             ->see('Formulaire de Réservation')
-             ->type($name, 'name')
-             ->type($forename, 'forename')
-             ->type($email, 'email')
-             ->type(0, 'nb_people')
-             ->type($dt_arrive, 'arrive_at')
-             ->type($dt_leave, 'leave_at')
-             ->press('Envoyer')
-             ->see('Formulaire de Réservation')
-             ->see("La valeur de nb people doit &ecirc;tre sup&eacute;rieure &agrave; 1.");
-
-        // nb_people > 15
-        $this->visit('/reservation/create')
-             ->see('Formulaire de Réservation')
-             ->type($name, 'name')
-             ->type($forename, 'forename')
-             ->type($email, 'email')
-             ->type(16, 'nb_people')
-             ->type($dt_arrive, 'arrive_at')
-             ->type($dt_leave, 'leave_at')
-             ->press('Envoyer')
-             ->see('Formulaire de Réservation')
-             ->see("La valeur de nb people ne peut &ecirc;tre sup&eacute;rieure &agrave; 15.");
-
-        // nb_people missing
-        $this->visit('/reservation/create')
-             ->see('Formulaire de Réservation')
-             ->type($name, 'name')
-             ->type($forename, 'forename')
-             ->type($email, 'email')
-             ->type($dt_arrive, 'arrive_at')
-             ->type($dt_leave, 'leave_at')
-             ->press('Envoyer')
-             ->see('Formulaire de Réservation')
-             ->see("Le champ nb people est obligatoire.");
-
-        //// name ////
-
+    public function testCreateName()
+    {
         // len(name) < 2
         $this->visit('/reservation/create')
              ->see('Formulaire de Réservation')
              ->type('Y', 'name')
-             ->type($forename, 'forename')
-             ->type($email, 'email')
-             ->type($nb_people, 'nb_people')
-             ->type($dt_arrive, 'arrive_at')
-             ->type($dt_leave, 'leave_at')
+             ->type($this->forename, 'forename')
+             ->type($this->email, 'email')
+             ->type($this->nb_people, 'nb_people')
+             ->type($this->dt_arrive, 'arrive_at')
+             ->type($this->dt_leave, 'leave_at')
              ->press('Envoyer')
              ->see('Formulaire de Réservation')
              ->see("Le texte Nom doit contenir au moins 2 caract&egrave;res.");
@@ -116,11 +87,11 @@ class ReservationTest extends TestCase
         $this->visit('/reservation/create')
              ->see('Formulaire de Réservation')
              ->type($this->faker->paragraph($nbSentences = 8), 'name')
-             ->type($forename, 'forename')
-             ->type($email, 'email')
-             ->type($nb_people, 'nb_people')
-             ->type($dt_arrive, 'arrive_at')
-             ->type($dt_leave, 'leave_at')
+             ->type($this->forename, 'forename')
+             ->type($this->email, 'email')
+             ->type($this->nb_people, 'nb_people')
+             ->type($this->dt_arrive, 'arrive_at')
+             ->type($this->dt_leave, 'leave_at')
              ->press('Envoyer')
              ->see('Formulaire de Réservation')
              ->see("Le texte de Nom ne peut contenir plus de 50 caract&egrave;res.");
@@ -128,13 +99,151 @@ class ReservationTest extends TestCase
         // name missing
         $this->visit('/reservation/create')
              ->see('Formulaire de Réservation')
-             ->type($forename, 'forename')
-             ->type($email, 'email')
-             ->type($nb_people, 'nb_people')
+             ->type($this->forename, 'forename')
+             ->type($this->email, 'email')
+             ->type($this->nb_people, 'nb_people')
+             ->type($this->dt_arrive, 'arrive_at')
+             ->type($this->dt_leave, 'leave_at')
+             ->press('Envoyer')
+             ->see('Formulaire de Réservation')
+             ->see("Le champ Nom est obligatoire.");
+    }
+
+    public function testCreateForename()
+    {
+        // len(forename) < 2
+        $this->visit('/reservation/create')
+             ->see('Formulaire de Réservation')
+             ->type($this->name, 'name')
+             ->type('X', 'forename')
+             ->type($this->email, 'email')
+             ->type($this->nb_people, 'nb_people')
+             ->type($this->dt_arrive, 'arrive_at')
+             ->type($this->dt_leave, 'leave_at')
+             ->press('Envoyer')
+             ->see('Formulaire de Réservation')
+             ->see("Le texte forename doit contenir au moins 2 caract&egrave;res.");
+
+        // forename > 50
+        $this->visit('/reservation/create')
+             ->see('Formulaire de Réservation')
+             ->type($this->name, 'name')
+             ->type($this->faker->paragraph($nbSentences = 8), 'forename')
+             ->type($this->email, 'email')
+             ->type($this->nb_people, 'nb_people')
+             ->type($this->dt_arrive, 'arrive_at')
+             ->type($this->dt_leave, 'leave_at')
+             ->press('Envoyer')
+             ->see('Formulaire de Réservation')
+             ->see("Le texte de forename ne peut contenir plus de 50 caract&egrave;res.");
+
+        // forename missing
+        $this->visit('/reservation/create')
+             ->see('Formulaire de Réservation')
+             ->type($this->name, 'name')
+             ->type($this->email, 'email')
+             ->type($this->nb_people, 'nb_people')
+             ->type($this->dt_arrive, 'arrive_at')
+             ->type($this->dt_leave, 'leave_at')
+             ->press('Envoyer')
+             ->see('Formulaire de Réservation')
+             ->see("Le champ forename est obligatoire.");
+    }
+
+    public function testCreateEmail()
+    {
+        $this->visit('/reservation/create')
+             ->see('Formulaire de Réservation')
+             ->type($this->name, 'name')
+             ->type($this->forename, 'forename')
+             ->type('john.smithexample.net', 'email')
+             ->type($this->nb_people, 'nb_people')
+             ->type($this->dt_arrive, 'arrive_at')
+             ->type($this->dt_leave, 'leave_at')
+             ->press('Envoyer')
+             ->see('Formulaire de Réservation')
+             ->see("Le champ E-mail doit &ecirc;tre une adresse email valide.");
+
+        $this->visit('/reservation/create')
+             ->see('Formulaire de Réservation')
+             ->type($this->name, 'name')
+             ->type($this->forename, 'forename')
+             ->type('john.smith@example', 'email')
+             ->type($this->nb_people, 'nb_people')
+             ->type($this->dt_arrive, 'arrive_at')
+             ->type($this->dt_leave, 'leave_at')
+             ->press('Envoyer')
+             ->see('Formulaire de Réservation')
+             ->see("Le champ E-mail doit &ecirc;tre une adresse email valide.");
+
+        // email missing
+        $this->visit('/reservation/create')
+             ->see('Formulaire de Réservation')
+             ->type($this->name, 'name')
+             ->type($this->nb_people, 'nb_people')
+             ->type($this->dt_arrive, 'arrive_at')
+             ->type($this->dt_leave, 'leave_at')
+             ->press('Envoyer')
+             ->see('Formulaire de Réservation')
+             ->see("Le champ E-mail est obligatoire.");
+    }
+
+    public function testCreateNbPeople()
+    {
+        // nb_people < 1
+        $this->visit('/reservation/create')
+             ->see('Formulaire de Réservation')
+             ->type($this->name, 'name')
+             ->type($this->forename, 'forename')
+             ->type($this->email, 'email')
+             ->type(0, 'nb_people')
+             ->type($this->dt_arrive, 'arrive_at')
+             ->type($this->dt_leave, 'leave_at')
+             ->press('Envoyer')
+             ->see('Formulaire de Réservation')
+             ->see("La valeur de nb people doit &ecirc;tre sup&eacute;rieure &agrave; 1.");
+
+        // nb_people > 15
+        $this->visit('/reservation/create')
+             ->see('Formulaire de Réservation')
+             ->type($this->name, 'name')
+             ->type($this->forename, 'forename')
+             ->type($this->email, 'email')
+             ->type(16, 'nb_people')
+             ->type($this->dt_arrive, 'arrive_at')
+             ->type($this->dt_leave, 'leave_at')
+             ->press('Envoyer')
+             ->see('Formulaire de Réservation')
+             ->see("La valeur de nb people ne peut &ecirc;tre sup&eacute;rieure &agrave; 15.");
+
+        // nb_people missing
+        $this->visit('/reservation/create')
+             ->see('Formulaire de Réservation')
+             ->type($this->name, 'name')
+             ->type($this->forename, 'forename')
+             ->type($this->email, 'email')
+             ->type($this->dt_arrive, 'arrive_at')
+             ->type($this->dt_leave, 'leave_at')
+             ->press('Envoyer')
+             ->see('Formulaire de Réservation')
+             ->see("Le champ nb people est obligatoire.");
+    }
+
+    public function testCreateAt()
+    {
+        $dt_arrive = $this->faker->date($this->formatter, 'now');
+        $dt_leave = $this->faker->date($this->formatter, $dt_arrive);
+
+        $this->visit('/reservation/create')
+             ->see('Formulaire de Réservation')
+             ->type($this->name, 'name')
+             ->type($this->forename, 'forename')
+             ->type($this->email, 'email')
+             ->type($this->nb_people, 'nb_people')
              ->type($dt_arrive, 'arrive_at')
              ->type($dt_leave, 'leave_at')
              ->press('Envoyer')
              ->see('Formulaire de Réservation')
-             ->see("Le champ Nom est obligatoire.");
+             ->see("Le champ leave at doit &ecirc;tre une date post&eacute;rieure au $dt_arrive.");
     }
 }
