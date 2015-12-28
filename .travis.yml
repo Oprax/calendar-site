@@ -5,22 +5,34 @@ php:
   - 5.5.9
   - 5.5
   - 5.6
+  - 7.0
+  - hhvm
+  - nightly
+
+matrix:
+  allow_failures:
+    - php: 7.0
+    - php: hhvm
+    - php: nightly
 
 services:
   - mysql
-  - redis-server
 
 
-before_install: travis_retry composer self-update
+before_install:
+  - travis_retry composer self-update
 
-install: travis_retry composer install --no-interaction
-
-sudo: false
+install:
+  - travis_retry composer install --no-interaction
+  - mkdir -p build/logs
+  - travis_retry composer require --dev --no-interaction satooshi/php-coveralls
 
 before_script:
-    - cp .env.travis .env 
-    - mysql -e 'create database homestead_test;'
-    - php artisan key:generate
-    - php artisan migrate
+  - cp .env.travis .env 
+  - mysql -e 'create database homestead_test;'
+  - php artisan key:generate
+  - php artisan migrate
 
 script: vendor/bin/phpunit
+
+after_script: vendor/bin/coveralls
