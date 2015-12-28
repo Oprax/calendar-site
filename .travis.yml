@@ -10,6 +10,12 @@ sudo: false
 
 before_install: travis_retry composer self-update
 
-install: travis_retry composer install  --no-interaction --prefer-dist
+install: travis_retry composer install --no-interaction
+
+before_script:
+    - cp .env.travis .env 
+    - mysql -e 'create database homestead_test;'
+    - php artisan key:generate
+    - php artisan migrate
 
 script: vendor/bin/phpunit
