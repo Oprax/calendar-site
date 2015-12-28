@@ -75,7 +75,7 @@ class ReservationController extends Controller
     public function store(ReservationRequest $request)
     {
         $reservation = new Reservation($request->all());
-        $reservation->is_valid  = false;
+        $reservation->is_valid = false;
 
         $reservation->save();
 
