@@ -4,9 +4,12 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
+use Carbon\Carbon;
 
 class ReservationTest extends TestCase
 {
+    use DatabaseMigrations;
+
     public $faker, $formatter;
     private $dt_arrive, $dt_leave, $name, $forename, $email, $nb_people;
 
@@ -245,5 +248,75 @@ class ReservationTest extends TestCase
              ->press('Envoyer')
              ->see('Formulaire de Réservation')
              ->see("Le champ leave at doit &ecirc;tre une date post&eacute;rieure au $dt_arrive.");
+    }
+
+    public function testIndex()
+    {
+        $this->testCreateOK();
+
+        $this->visit("/reservation?name__eq=$this->name")
+             ->see("$this->name $this->forename")
+             ->see("Du $this->dt_arrive au $this->dt_leave pour $this->nb_people personne(s)");
+
+        $this->visit("/reservation?forename__eq=$this->forename")
+             ->see("$this->name $this->forename")
+             ->see("Du $this->dt_arrive au $this->dt_leave pour $this->nb_people personne(s)");
+
+        $this->visit("/reservation?nb_people__eq=$this->nb_people")
+             ->see("$this->name $this->forename")
+             ->see("Du $this->dt_arrive au $this->dt_leave pour $this->nb_people personne(s)");
+
+        $this->visit("/reservation?nb_people__lte=$this->nb_people")
+             ->see("$this->name $this->forename")
+             ->see("Du $this->dt_arrive au $this->dt_leave pour $this->nb_people personne(s)");
+
+        $this->visit("/reservation?nb_people__gte=$this->nb_people")
+             ->see("$this->name $this->forename")
+             ->see("Du $this->dt_arrive au $this->dt_leave pour $this->nb_people personne(s)");
+
+        $this->visit("/reservation?nb_people__lt=" . ($this->nb_people + 1))
+             ->see("$this->name $this->forename")
+             ->see("Du $this->dt_arrive au $this->dt_leave pour $this->nb_people personne(s)");
+
+        $this->visit("/reservation?nb_people__gt=" . ($this->nb_people - 1))
+             ->see("$this->name $this->forename")
+             ->see("Du $this->dt_arrive au $this->dt_leave pour $this->nb_people personne(s)");
+
+        $dt_arrive = Carbon::createFromFormat($this->formatter, $this->dt_arrive);
+        $dt_leave = Carbon::createFromFormat($this->formatter, $this->dt_leave);
+
+        $this->visit("/reservation?arrive_at__eq={$dt_arrive->toDateString()}")
+             ->see("$this->name $this->forename")
+             ->see("Du $this->dt_arrive au $this->dt_leave pour $this->nb_people personne(s)");
+
+        $this->visit("/reservation?arrive_at__gte={$dt_arrive->toDateString()}")
+             ->see("$this->name $this->forename")
+             ->see("Du $this->dt_arrive au $this->dt_leave pour $this->nb_people personne(s)");
+
+        $this->visit("/reservation?arrive_at__lte={$dt_arrive->toDateString()}")
+             ->see("$this->name $this->forename")
+             ->see("Du $this->dt_arrive au $this->dt_leave pour $this->nb_people personne(s)");
+
+
+        $this->visit("/reservation?leave_at__eq={$dt_leave->toDateString()}")
+             ->see("$this->name $this->forename")
+             ->see("Du $this->dt_arrive au $this->dt_leave pour $this->nb_people personne(s)");
+
+        $this->visit("/reservation?leave_at__gte={$dt_leave->toDateString()}")
+             ->see("$this->name $this->forename")
+             ->see("Du $this->dt_arrive au $this->dt_leave pour $this->nb_people personne(s)");
+
+        $this->visit("/reservation?leave_at__lte={$dt_leave->toDateString()}")
+             ->see("$this->name $this->forename")
+             ->see("Du $this->dt_arrive au $this->dt_leave pour $this->nb_people personne(s)");
+
+
+        $this->visit("/reservation?arrive_at__lte={$dt_leave->toDateString()}")
+             ->see("$this->name $this->forename")
+             ->see("Du $this->dt_arrive au $this->dt_leave pour $this->nb_people personne(s)");
+
+        $this->visit("/reservation?leave_at__gte={$dt_arrive->toDateString()}")
+             ->see("$this->name $this->forename")
+             ->see("Du $this->dt_arrive au $this->dt_leave pour $this->nb_people personne(s)");
     }
 }

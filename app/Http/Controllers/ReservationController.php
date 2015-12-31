@@ -37,6 +37,7 @@ class ReservationController extends Controller
     {
         $title = "Réservations";
         $reservations = $this->buildFilterQuery($request->all());
+
         
         if($request->ajax()) {
             return $reservation;

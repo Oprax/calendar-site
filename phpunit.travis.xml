@@ -19,12 +19,14 @@
             <directory suffix=".php">app/</directory>
         </whitelist>
     </filter>
+    <logging>
+        <log type="coverage-clover" target="build/logs/clover.xml"/>
+    </logging>
     <php>
         <env name="APP_ENV" value="testing"/>
         <env name="CACHE_DRIVER" value="array"/>
         <env name="SESSION_DRIVER" value="array"/>
         <env name="QUEUE_DRIVER" value="sync"/>
         <env name="MAIL_DRIVER" value="log"/>
-        <env name="DB_DATABASE" value="montesquieu_test"/>
     </php>
 </phpunit>
