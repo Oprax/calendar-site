@@ -42,7 +42,7 @@
             borderWidth: 0
         },
         series: [{
-            name: "Taux d'occupation",
+            name: "TO",
             data: monthly.data
         }]
     });
@@ -90,7 +90,7 @@
                 borderWidth: 0
             },
             series: [{
-                name: "Taux d'occupation",
+                name: "TO",
                 data: daily[index].data
             }]
         });

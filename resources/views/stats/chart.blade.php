@@ -1,4 +1,4 @@
-@extends('stats')
+@extends('default')
 
 @section('title', 'Statistiques &bull; ' . $year)
 
@@ -25,4 +25,9 @@
     var months = {!! json_encode($months) !!};
     var year = {{ $year }};
     </script>
+@endsection
+
+@section('javascript')
+        <script src="{{ route('welcome') }}/static/js/highcharts.min.js"></script>
+        <script src="{{ route('welcome') }}/static/js/app.js"></script>
 @endsection
