@@ -30,9 +30,13 @@ Route::get('stats/{year}', ['uses' => 'StatsController@chart', 'as' => 'stats.ch
 ->where(['year' => '20\d\d']);
 
 // Authentication routes...
-Route::get('auth/login', ['as' => 'auth.login', 'uses' => 'Auth\AuthController@getLogin']);
-Route::post('auth/login', 'Auth\AuthController@postLogin');
-Route::get('auth/logout', ['as' => 'auth.logout', 'uses' => 'Auth\AuthController@getLogout']);
+// Set value to null if you're not HTTPS
+Route::group(['middleware' => 'secure'], function ()
+{
+    Route::get('auth/login', ['as' => 'auth.login', 'uses' => 'Auth\AuthController@getLogin']);
+    Route::post('auth/login', 'Auth\AuthController@postLogin');
+    Route::get('auth/logout', ['as' => 'auth.logout', 'uses' => 'Auth\AuthController@getLogout']);
+});
 
 // Registration routes...
 //Route::get('auth/register', ['as' => 'auth.register', 'uses' => 'Auth\AuthController@getRegister']);

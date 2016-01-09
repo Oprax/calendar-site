@@ -178,7 +178,7 @@ class ReservationController extends Controller
         if($request->ajax()) {
             return $reservation;
         }
-        return redirect()->route('reservation.index');
+        return back();
     }
 
     /**
