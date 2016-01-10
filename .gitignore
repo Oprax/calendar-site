@@ -8,7 +8,7 @@ clover.*
 /composer.lock
 Envoy.blade.php
 /.idea
-
+*.out
 
 
 # OS generated files #

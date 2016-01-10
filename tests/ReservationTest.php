@@ -8,8 +8,6 @@ use Carbon\Carbon;
 
 class ReservationTest extends TestCase
 {
-    use DatabaseMigrations;
-
     public $faker, $formatter;
     private $dt_arrive, $dt_leave, $name, $forename, $email, $nb_people;
 
