@@ -24,8 +24,6 @@ before_install:
 
 install:
   - travis_retry composer install --no-interaction
-  - mkdir -p build/logs
-  - travis_retry composer require --dev --no-interaction satooshi/php-coveralls
 
 before_script:
   - cp .env.travis .env 
@@ -34,5 +32,3 @@ before_script:
   - php artisan migrate
 
 script: vendor/bin/phpunit -c phpunit.travis.xml
-
-after_script: vendor/bin/coveralls
