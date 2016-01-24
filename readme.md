@@ -53,9 +53,24 @@ For Laravel configuration see `.env.example` and [Laravel documentation](https:/
 For data we use [MySQL](https://www.mysql.com/) and [Redis](http://redis.io/) for job queue, install them and put information on `.env`, for mailing we using [Mailgun](http://mailgun.com/).
 
 Use [Envoy](https://laravel.com/docs/5.1/envoy) to push in production, here example of `Envoy.blade.php` :
+First create user representing instance of your website, for exemple `calendar`, next create this in database like MySQL :
+```sql
+CREATE USER calendar@localhost IDENTIFIED BY 'password';
+CREATE DATABASE calendar;
+GRANT ALL PRIVILEGES ON calendar.* TO calendar@localhost;
 ```
+
+In directory `share` we put all file contains data like `.env` and `vendor/` directory, this is not specific from a version.
+
+You neet to have a repo with 
+```
+git remote add origin ssh://calendar@serverIP/home/calendar/repo
+```
+
+From [Grafikart](http://www.grafikart.fr/tutoriels/php/envoy-deploy-624)
+```php
 @setup
-    $dir = "/home/montesquieu";
+    $dir = "/home/calendar";
     $maxRelease = 3;
 
     $dirLinks = ['storage/app', 'storage/framework', 'storage/logs', 'storage/debugbar'];

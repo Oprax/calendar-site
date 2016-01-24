@@ -19,7 +19,6 @@ class ReservationController extends Controller
     /**
      * Instantiate a new ReservationController instance.
      *
-     * @return void
      */
     public function __construct()
     {
@@ -39,9 +38,10 @@ class ReservationController extends Controller
         $reservations = $this->buildFilterQuery($request->all());
 
         
-        if($request->ajax()) {
-            return $reservation;
+        if($request->ajax() || $request->isJson() || $request->wantsJson()) {
+            return $reservations;
         }
+        
         return view('reservation.index', compact('title', 'reservations'));
     }
 
@@ -70,7 +70,7 @@ class ReservationController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  Request  $request
+     * @param ReservationRequest|Request $request
      * @return Response
      */
     public function store(ReservationRequest $request)
@@ -91,7 +91,7 @@ class ReservationController extends Controller
 
         $this->sendMail('emails.new', $reservation->toArray(), $dest);
         
-        if($request->ajax()) {
+        if($request->ajax() || $request->isJson() || $request->wantsJson()) {
             return $reservation;
         }
         return redirect()->route('reservation.show', $reservation);
@@ -100,7 +100,8 @@ class ReservationController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param Request $request
+     * @param  int $id
      * @return Response
      */
     public function show(Request $request, $id)
@@ -108,7 +109,7 @@ class ReservationController extends Controller
         $reservation = Reservation::findOrFail($id);
         $title = "Réservation";
 
-        if($request->ajax()) {
+        if($request->ajax() || $request->isJson() || $request->wantsJson()) {
             return $reservation;
         }
         return view('reservation.show', compact('title', 'reservation'));
@@ -130,8 +131,8 @@ class ReservationController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  Request  $request
-     * @param  int  $id
+     * @param ReservationRequest|Request $request
+     * @param  int $id
      * @return Response
      */
     public function update(ReservationRequest $request, $id)
@@ -150,7 +151,7 @@ class ReservationController extends Controller
             $this->sendMail('emails.confirm', $reservationData);
         }
 
-        if($request->ajax()) {
+        if($request->ajax() || $request->isJson() || $request->wantsJson()) {
             return $reservation;
         }
         return redirect()->route('reservation.show', $reservation);
@@ -175,7 +176,7 @@ class ReservationController extends Controller
 
         $this->sendMail('emails.refuse', $reservationData);
 
-        if($request->ajax()) {
+        if($request->ajax() || $request->isJson() || $request->wantsJson()) {
             return $reservation;
         }
         return back();
@@ -189,7 +190,7 @@ class ReservationController extends Controller
      * @param  string|array  $to      'To' array, if empty use data email
      * @return Validator
      */
-    private function sendMail($view, array $data, $to = null)
+    protected function sendMail($view, array $data, $to = null)
     {
         if(is_null($to)) {
             $to = $data['email'];
@@ -207,7 +208,7 @@ class ReservationController extends Controller
      * @param  array  $params
      * @return Illuminate\Database\Eloquent\Collection
      */
-    private function buildFilterQuery(array $params)
+    protected function buildFilterQuery(array $params)
     {
         $ops = [
             'eq'  => '=',
