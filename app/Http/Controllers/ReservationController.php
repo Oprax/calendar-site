@@ -11,67 +11,30 @@ use App\Http\Controllers\Controller;
 use App\Reservation;
 
 use Validator;
+use DB;
 
 use Carbon\Carbon;
 
 class ReservationController extends Controller
 {
     /**
-     * Instantiate a new ReservationController instance.
-     *
-     */
-    public function __construct()
-    {
-        $this->middleware('auth', ['except' => ['create', 'store', 'show', 'index']]);
-        Carbon::setToStringFormat('d/m/Y');
-    }
-
-    /**
      * Display a listing of the resource.
      *
      * @param  Request  $request
-     * @return Response
+     * @return array
      */
     public function index(Request $request)
     {
-        $title = "Réservations";
         $reservations = $this->buildFilterQuery($request->all());
 
-        
-        if($request->ajax() || $request->isJson() || $request->wantsJson()) {
-            return $reservations;
-        }
-        
-        return view('reservation.index', compact('title', 'reservations'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @param  Request  $request
-     * @return Response
-     */
-    public function create(Request $request)
-    {
-        $context = $request->all();
-
-        if(array_key_exists('arrive_at', $context)) {
-            $context['arrive_at'] = Carbon::parse($context['arrive_at']);
-        }
-
-        if(array_key_exists('leave_at', $context)) {
-            $context['leave_at'] = Carbon::parse($context['leave_at']);
-        }
-
-        $context['title'] = "Réservation formulaire";
-        return view('reservation.create', $context);
+        return compact('reservations');
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param ReservationRequest|Request $request
-     * @return Response
+     * @return array
      */
     public function store(ReservationRequest $request)
     {
@@ -90,42 +53,22 @@ class ReservationController extends Controller
         }
 
         $this->sendMail('emails.new', $reservation->toArray(), $dest);
-        
-        if($request->ajax() || $request->isJson() || $request->wantsJson()) {
-            return $reservation;
-        }
-        return redirect()->route('reservation.show', $reservation);
+
+        return compact('reservation');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param Request $request
      * @param  int $id
-     * @return Response
+     * @return array
+     * @internal param Request $request
      */
-    public function show(Request $request, $id)
+    public function show($id)
     {
         $reservation = Reservation::findOrFail($id);
-        $title = "Réservation";
 
-        if($request->ajax() || $request->isJson() || $request->wantsJson()) {
-            return $reservation;
-        }
-        return view('reservation.show', compact('title', 'reservation'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function edit($id)
-    {
-        $reservation = Reservation::findOrFail($id);
-        $title = "Modification";
-        return view('reservation.edit', compact('title', 'reservation'));
+        return compact('reservation');
     }
 
     /**
@@ -133,7 +76,7 @@ class ReservationController extends Controller
      *
      * @param ReservationRequest|Request $request
      * @param  int $id
-     * @return Response
+     * @return array
      */
     public function update(ReservationRequest $request, $id)
     {
@@ -142,44 +85,39 @@ class ReservationController extends Controller
         $reservation->update($request->all());
         $reservation->save();
 
-        $reservationData = $reservation->toArray();
+        $reservationMail = $reservation->toArray();
 
-        $reservationData['arrive_at'] = $reservation->arrive_at->format('d/m/Y');
-        $reservationData['leave_at'] = $reservation->leave_at->format('d/m/Y');
+        $reservationMail['arrive_at'] = Carbon::parse($reservation['arrive_at'])->arrive_at->format('d/m/Y');
+        $reservationMail['leave_at'] = Carbon::parse($reservation['leave_at'])->leave_at->format('d/m/Y');
 
         if($reservation->is_valid and $reservation->is_valid != $is_valid) {
-            $this->sendMail('emails.confirm', $reservationData);
+            $this->sendMail('emails.confirm', $reservationMail);
         }
 
-        if($request->ajax() || $request->isJson() || $request->wantsJson()) {
-            return $reservation;
-        }
-        return redirect()->route('reservation.show', $reservation);
+        return compact('reservation');
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return Response
+     * @return array
      */
-    public function destroy(Request $request, $id)
+    public function destroy($id)
     {
         $reservation = Reservation::findOrFail($id);
 
+        $reservationMail = $reservation->toArray();
         $reservationData = $reservation->toArray();
 
-        $reservationData['arrive_at'] = $reservation->arrive_at->format('d/m/Y');
-        $reservationData['leave_at'] = $reservation->leave_at->format('d/m/Y');
+        $reservationMail['arrive_at'] = Carbon::parse($reservation['arrive_at'])->format('d/m/Y');
+        $reservationMail['leave_at'] = Carbon::parse($reservation['leave_at'])->format('d/m/Y');
 
         $reservation->delete();
 
-        $this->sendMail('emails.refuse', $reservationData);
+        $r = $this->sendMail('emails.refuse', $reservationMail);
 
-        if($request->ajax() || $request->isJson() || $request->wantsJson()) {
-            return $reservation;
-        }
-        return back();
+        return compact('r');
     }
 
     /**
@@ -220,8 +158,8 @@ class ReservationController extends Controller
 
         $fields = ['name', 'forename', 'arrive_at', 'leave_at', 'nb_people'];
 
-        $limit = 50;
-        $page = 1;
+        $limit = 15;
+        $page = null;
 
         if (isset($params['limit']) and $params['limit'] > 0 and $params['limit'] < 100) {
             $limit = (int) $params['limit'];
@@ -231,10 +169,14 @@ class ReservationController extends Controller
             $page = (int) $params['page'];
         }
 
-        $page -= 1;
-        $skipping = (int) ($page * $limit);
+        $select = ['*'];
 
-        $reservation = Reservation::skip($skipping)->take($limit);
+        if (!empty($params['fields'])) {
+            $select = explode(',', $params['fields']);
+        }
+
+        $reservation = Reservation::select($select);
+        $reservation->addSelect('id');
 
         foreach ($params as $param => $value)
         {
@@ -249,6 +191,6 @@ class ReservationController extends Controller
             }
         }
 
-        return $reservation->get();
+        return $reservation->paginate($perPage = $limit, $columns = array('*'), $pageName = 'reservations', $page = $page);
     }
 }

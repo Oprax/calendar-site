@@ -19,7 +19,11 @@ Route::get('home', function(){
     return redirect()->route('welcome');
 });
 
-Route::resource('reservation', 'ReservationController');
+Route::resource('reservations', 'ReservationUIController');
+
+Route::group(['prefix' => 'api'], function(){
+	Route::resource('reservations', 'ReservationAPIController');
+});
 
 Route::get('calendar/{year}/{month?}/{day?}', ['uses' => 'CalendarController@main', 'as' => 'calendar.main'])
 ->where(['year' => '20\d\d', 'month' => '\d{1,2}', 'day' => '\d{1,2}']);

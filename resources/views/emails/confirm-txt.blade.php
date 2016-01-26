@@ -4,5 +4,5 @@ Bonjour {{ $name }} {{ $forename }},
 Votre réservation du {{ $arrive_at }} au {{ $leave_at }} a été validé.
 
 
-Résumé de votra réservation : {{ route('reservation.show', compact('id')) }}.
+Résumé de votra réservation : {{ route('reservations.show', compact('id')) }}.
 

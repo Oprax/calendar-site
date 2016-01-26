@@ -40,10 +40,10 @@ $now = date('Y');
     </div>
     <div class="row-fluid">
         <p>
-            <a class="btn btn-primary" href="{{ route('reservation.create') }}">Nouvelle Réservation</a>
+            <a class="btn btn-primary" href="{{ route('reservations.create') }}">Nouvelle Réservation</a>
         </p>
         <p>
-            <a class="btn btn-primary" href="{{ route('reservation.index') }}">Liste des Réservations</a>
+            <a class="btn btn-primary" href="{{ route('reservations.index') }}">Liste des Réservations</a>
         </p>
         @if(Auth::check())
         <p>

@@ -11,13 +11,13 @@
 @section('content')
     <ul class="breadcrumb">
         <li><a href="{{ route('welcome') }}">Accueil</a> <span class="divider">/</span></li>
-        <li><a href="{{ route('reservation.index') }}">Réservations</a> <span class="divider">/</span></li>
-        <li><a href="{{ route('reservation.show', ['id' => $reservation->id]) }}">N°{{ $reservation->id }}</a> <span class="divider">/</span></li>
+        <li><a href="{{ route('reservations.index') }}">Réservations</a> <span class="divider">/</span></li>
+        <li><a href="{{ route('reservations.show', ['id' => $reservation->id]) }}">N°{{ $reservation->id }}</a> <span class="divider">/</span></li>
         <li class="active">Modification</li>
     </ul>
     <div>
         <h1>Réservation N°{{ $reservation->id }}</h1>
-        {!! Form::open(['url' => route('reservation.update', $reservation), 'method' => 'PUT']) !!}
+        {!! Form::open(['url' => route('reservations.update', $reservation), 'method' => 'PUT']) !!}
 
             <div class="form-group">
                 {!! Form::label('name', "Nom") !!}
@@ -49,7 +49,7 @@
         {!! Form::close() !!}
 
         @if(!$reservation->is_valid)
-        {!! Form::open(['url' => route('reservation.update', $reservation), 'method' => 'PUT']) !!}
+        {!! Form::open(['url' => route('reservations.update', $reservation), 'method' => 'PUT']) !!}
 
             {!! Form::hidden('name', $reservation->name) !!}
             {!! Form::hidden('forename', $reservation->forename) !!}
@@ -65,7 +65,7 @@
         @endif
 
 
-        {!! Form::open(['url' => route('reservation.destroy', $reservation), 'method' => 'DELETE']) !!}
+        {!! Form::open(['url' => route('reservations.destroy', $reservation), 'method' => 'DELETE']) !!}
             {!! Form::button('Supprimer', ['class' => 'btn btn-danger', 'type' => 'submit']) !!}
         {!! Form::close() !!}
     </div>

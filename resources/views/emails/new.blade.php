@@ -43,11 +43,11 @@
                             <tr>
                                 <td align="center" style="font-family:Helvetica,sans-serif;mso-line-height-rule:exactly;text-align:center;line-height:40px;color:#333333;">
                                     <div><!--[if mso]>
-                                      <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="{{ route('reservation.edit', compact('id')) }}" style="height:36px;v-text-anchor:middle;width:200px;" arcsize="56%" strokecolor="#adadad" fillcolor="#fafafb">
+                                      <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="{{ route('reservations.edit', compact('id')) }}" style="height:36px;v-text-anchor:middle;width:200px;" arcsize="56%" strokecolor="#adadad" fillcolor="#fafafb">
                                         <w:anchorlock/>
                                         <center style="color:#2f353e;font-family:sans-serif;font-size:13px;font-weight:bold;">Voir la Réservation</center>
                                       </v:roundrect>
-                                    <![endif]--><a href="{{ route('reservation.edit', compact('id')) }}"
+                                    <![endif]--><a href="{{ route('reservations.edit', compact('id')) }}"
                                     style="background-color:#fafafb;border:1px solid #adadad;border-radius:20px;color:#2f353e;display:inline-block;font-family:sans-serif;font-size:13px;font-weight:bold;line-height:36px;text-align:center;text-decoration:none;width:200px;-webkit-text-size-adjust:none;mso-hide:all;">Voir la Réservation</a>
                                     </div>
                                 </td>

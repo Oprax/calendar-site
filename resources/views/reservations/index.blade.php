@@ -14,7 +14,7 @@
 
     <h3>Filtres <button id="hide-filter"><i class="icon-plus"></i></button></h3>
 
-    <form id="filter" action="{{ route('reservation.index') }}" method="GET">
+    <form id="filter" action="{{ route('reservations.index') }}" method="GET">
         <div id="form-content">
         </div>
 
@@ -51,16 +51,17 @@
         <p>Du {{ $reservation->arrive_at }} au {{ $reservation->leave_at }} pour {{ $reservation->nb_people }} personne(s)</p>
         <p>
         @if(Auth::check())
-            <a class="btn btn-primary" href="{{ route('reservation.edit', $reservation) }}">Modifier</a>
-            {!! Form::open(['url' => route('reservation.destroy', $reservation), 'method' => 'DELETE']) !!}
+            <a class="btn btn-primary" href="{{ route('reservations.edit', $reservation->id) }}">Modifier</a>
+            {!! Form::open(['url' => route('reservations.destroy', $reservation), 'method' => 'DELETE']) !!}
               <button type="submit" class="btn btn-danger">Supprimer</button>
             {!! Form::close() !!}
         @else
-            <a class="btn btn-primary" href="{{ route('reservation.show', $reservation) }}">Voir</a>
+            <a class="btn btn-primary" href="{{ route('reservations.show', $reservation->id) }}">Voir</a>
         @endif
         </p>
     </div>
     @endforeach
+
 @endsection
 
 @section('javascript')

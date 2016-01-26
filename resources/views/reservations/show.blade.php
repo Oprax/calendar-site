@@ -5,7 +5,7 @@
 @section('content')
     <ul class="breadcrumb">
         <li><a href="{{ route('welcome') }}">Accueil</a> <span class="divider">/</span></li>
-        <li><a href="{{ route('reservation.index') }}">Réservations</a> <span class="divider">/</span></li>
+        <li><a href="{{ route('reservations.index') }}">Réservations</a> <span class="divider">/</span></li>
         <li class="active">N°{{ $reservation->id }}</li>
     </ul>
     <div>
@@ -27,10 +27,10 @@
         </p>
         @if(Auth::check())
         <p>
-            <a class="btn btn-primary" href="{{ route('reservation.edit', $reservation) }}">
+            <a class="btn btn-primary" href="{{ route('reservations.edit', $reservation) }}">
             Modifier
             </a>
-            {!! Form::open(['url' => route('reservation.destroy', $reservation), 'method' => 'DELETE']) !!}
+            {!! Form::open(['url' => route('reservations.destroy', $reservation), 'method' => 'DELETE']) !!}
               <button type="submit" class="btn btn-danger">Supprimer</button>
             {!! Form::close() !!}
         </p>

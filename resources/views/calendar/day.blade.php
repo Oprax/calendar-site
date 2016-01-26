@@ -34,7 +34,7 @@ $dt_next = Carbon::createFromDate($year, $month, $day)->addDay();
                  au {{ $reservation->leave_at->day }} {{ $months[$reservation->leave_at->month - 1] }} {{ $reservation->leave_at->year }}.
             </p>
             <p>
-                <a class="btn btn-primary" href="{{ route('reservation.show', $reservation) }}">Voir</a>
+                <a class="btn btn-primary" href="{{ route('reservations.show', $reservation) }}">Voir</a>
             </p>
         </div>
         @empty
@@ -44,7 +44,7 @@ $dt_next = Carbon::createFromDate($year, $month, $day)->addDay();
         @endforelse
 
         @if($dt->isToday() or $dt->isFuture())
-        <a class="btn btn-primary" href="{{ route('reservation.create') }}?arrive_at={{ $year }}-{{ $month }}-{{ $day }}">
+        <a class="btn btn-primary" href="{{ route('reservations.create') }}?arrive_at={{ $dt->toDateString() }}">
             Ajouter une réservation pour cette date
         </a>
         @endif

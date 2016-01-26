@@ -23,14 +23,14 @@ if (Auth::check()) {
 @section('content')
     <ul class="breadcrumb">
         <li><a href="{{ route('welcome') }}">Accueil</a> <span class="divider">/</span></li>
-        <li><a href="{{ route('reservation.index') }}">Réservations</a> <span class="divider">/</span></li>
+        <li><a href="{{ route('reservations.index') }}">Réservations</a> <span class="divider">/</span></li>
         <li class="active">Formulaire</li>
     </ul>
 
     <div>
         <h1>Formulaire de Réservation</h1>
 
-        {!! Form::open(['url' => route('reservation.store'), 'method' => 'POST']) !!}
+        {!! Form::open(['url' => route('reservations.store'), 'method' => 'POST']) !!}
             <div class="form-group">
                 {!! Form::label('name', "Nom") !!}
                 {!! Form::text('name', isset($name) ? $name : null, ['class' => 'form-control']) !!}
@@ -67,8 +67,8 @@ if (Auth::check()) {
         <script src="{{ route('welcome') }}/static/js/datepicker/fr_FR.js"></script>
         <script type="text/javascript">
         var datepickerOption = {
-            formatSubmit: 'dd/mm/yyyy',
-            format: 'dd/mm/yyyy'
+            formatSubmit: 'yyyy-mm-dd',
+            format: 'yyyy-mm-dd'
         };
         $('#arrive_at').pickadate(datepickerOption);
         $('#leave_at').pickadate(datepickerOption);
