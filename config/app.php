@@ -138,6 +138,9 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Illuminate\Html\HtmlServiceProvider::class,
 
+        //reCaptcha
+        Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
+
         // DEBUG
         //Barryvdh\Debugbar\ServiceProvider::class,
 

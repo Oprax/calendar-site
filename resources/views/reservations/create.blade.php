@@ -56,6 +56,14 @@ if (Auth::check()) {
                 {!! Form::text('leave_at', isset($leave_at) ? $leave_at : null, ['class' => 'form-control']) !!}
             </div>
 
+            <br>
+            <div class="form-group">
+                {!! app('captcha')->display(); !!}
+            </div>
+            <br>
+
+            <div class="form-group"><input type="hidden"></div>
+
             {!! Form::button('Envoyer', ['class' => 'btn btn-primary', 'type' => 'submit']) !!}
         {!! Form::close() !!}
     </div>

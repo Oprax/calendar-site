@@ -10,6 +10,7 @@ use App\Http\Requests\ReservationRequest;
 use App\Http\Controllers\ReservationController;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
 
 
 class ReservationUIController extends ReservationController
@@ -66,6 +67,10 @@ class ReservationUIController extends ReservationController
     {
         extract(parent::store($request));
 
+        $this->validate($request, [
+            'g-recaptcha-response'  => 'required|captcha'
+        ]);
+
         return redirect()->route('reservations.show', $reservation);
     }
 
@@ -103,13 +108,17 @@ class ReservationUIController extends ReservationController
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param ReservationRequest|Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(ReservationRequest $request, $id)
     {
         extract(parent::update($request, $id));
+
+        $this->validate($request, [
+            'g-recaptcha-response'  => 'required|captcha'
+        ]);
 
         return redirect()->route('reservations.show', $reservation);
     }
