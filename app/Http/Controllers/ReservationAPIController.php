@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 use App\Reservation;
@@ -71,7 +72,15 @@ class ReservationAPIController extends ReservationController
      */
     public function show($id)
     {
-        extract(parent::show($id));
+        try {
+            extract(parent::show($id));
+        } catch(ModelNotFoundException $e) {
+            return response()
+                ->json([
+                    'error' => 'not_found',
+                    'error_description' => "The reservation with the id '$id' doesn't exist.",
+                ], 404);
+        }
 
         return response()
             ->json($reservation, 200);
@@ -86,7 +95,15 @@ class ReservationAPIController extends ReservationController
      */
     public function update(ReservationRequest $request, $id)
     {
-        extract(parent::update($request, $id));
+        try {
+            extract(parent::update($request, $id));
+        } catch(ModelNotFoundException $e) {
+            return response()
+                ->json([
+                    'error' => 'not_found',
+                    'error_description' => "The reservation with the id '$id' doesn't exist.",
+                ], 404);
+        }
 
         return response(null, 204)
             ->header('Location', route('api.reservations.show', $reservation));
@@ -101,7 +118,15 @@ class ReservationAPIController extends ReservationController
      */
     public function destroy($id)
     {
-        extract(parent::destroy($id));
+        try {
+            extract(parent::destroy($id));
+        } catch(ModelNotFoundException $e) {
+            return response()
+                ->json([
+                    'error' => 'not_found',
+                    'error_description' => "The reservation with the id '$id' doesn't exist.",
+                ], 404);
+        }
 
         return response(null, 204);
     }

@@ -17,6 +17,7 @@ class CORSMiddleware
     {
         $response = $next($request);
         $response->header('Access-Control-Allow-Origin', '*');
+        $response->header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
         return $response;
     }
 }

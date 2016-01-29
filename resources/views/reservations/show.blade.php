@@ -14,8 +14,8 @@
             De {{ $reservation->name }} {{ $reservation->forename }} pour {{ $reservation->nb_people }} personne(s).
         </p>
         <p>
-            Du <a href="{{ route('calendar.main', ['year' => $reservation->arrive_at->year, 'month' => $reservation->arrive_at->month, 'day' => $reservation->arrive_at->day]) }}">{{ $reservation->arrive_at }}</a>
-            au <a href="{{ route('calendar.main', ['year' => $reservation->leave_at->year, 'month' => $reservation->leave_at->month, 'day' => $reservation->leave_at->day]) }}">{{ $reservation->leave_at }}</a>.
+            Du <a href="{{ route('calendar.main', ['year' => $reservation->arrive_at->year, 'month' => $reservation->arrive_at->month, 'day' => $reservation->arrive_at->day]) }}">{{ $reservation->arrive_at->format('d/m/Y') }}</a>
+            au <a href="{{ route('calendar.main', ['year' => $reservation->leave_at->year, 'month' => $reservation->leave_at->month, 'day' => $reservation->leave_at->day]) }}">{{ $reservation->leave_at->format('d/m/Y') }}</a>.
         </p>
         <p>
             Statut :

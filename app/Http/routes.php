@@ -21,10 +21,6 @@ Route::get('home', function(){
 
 Route::resource('reservations', 'ReservationUIController');
 
-Route::group(['prefix' => 'api'], function(){
-	Route::resource('reservations', 'ReservationAPIController');
-});
-
 Route::get('calendar/{year}/{month?}/{day?}', ['uses' => 'CalendarController@main', 'as' => 'calendar.main'])
 ->where(['year' => '20\d\d', 'month' => '\d{1,2}', 'day' => '\d{1,2}']);
 
@@ -33,7 +29,34 @@ Route::get('stats', ['uses' => 'StatsController@index', 'as' => 'stats.index']);
 Route::get('stats/{year}', ['uses' => 'StatsController@chart', 'as' => 'stats.chart'])
 ->where(['year' => '20\d\d']);
 
-// Authentication routes...
+/*
+|--------------------------------------------------------------------------
+| API routes
+|--------------------------------------------------------------------------
+*/
+
+Route::group(['prefix' => 'api'], function(){
+    Route::resource('reservations', 'ReservationAPIController');
+});
+
+/*
+|--------------------------------------------------------------------------
+| OAuth2 routes
+|--------------------------------------------------------------------------
+*/
+
+Route::group(['prefix' => 'oauth'], function(){
+    Route::post('access_token', function() {
+        return Response::json(Authorizer::issueAccessToken());
+    });
+});
+
+/*
+|--------------------------------------------------------------------------
+| Authentication routes
+|--------------------------------------------------------------------------
+*/
+
 // Set value to null if you're not HTTPS
 Route::group(['middleware' => 'secure'], function ()
 {

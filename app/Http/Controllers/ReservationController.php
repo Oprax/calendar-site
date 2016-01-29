@@ -11,10 +11,13 @@ use App\Http\Controllers\Controller;
 use App\Reservation;
 
 use Validator;
-use DB;
 
 use Carbon\Carbon;
 
+/**
+ * Class ReservationController
+ * @package App\Http\Controllers
+ */
 class ReservationController extends Controller
 {
     /**
@@ -43,7 +46,9 @@ class ReservationController extends Controller
 
         $reservation->save();
 
-        $dest = [];
+        $dest = explode(',', env('MAIL_ADMIN'));
+
+        /*
         $env = app()->environment();
 
         if($env == 'production') {
@@ -51,7 +56,7 @@ class ReservationController extends Controller
         } else {
             $dest = ['romuller67@hotmail.fr', 'aphrox.romuller@gmail.com'];
         }
-
+    */
         $this->sendMail('emails.new', $reservation->toArray(), $dest);
 
         return compact('reservation');
@@ -87,8 +92,8 @@ class ReservationController extends Controller
 
         $reservationMail = $reservation->toArray();
 
-        $reservationMail['arrive_at'] = Carbon::parse($reservation['arrive_at'])->arrive_at->format('d/m/Y');
-        $reservationMail['leave_at'] = Carbon::parse($reservation['leave_at'])->leave_at->format('d/m/Y');
+        $reservationMail['arrive_at'] = Carbon::parse($reservation['arrive_at'])->format('d/m/Y');
+        $reservationMail['leave_at'] = Carbon::parse($reservation['leave_at'])->format('d/m/Y');
 
         if($reservation->is_valid and $reservation->is_valid != $is_valid) {
             $this->sendMail('emails.confirm', $reservationMail);
@@ -96,6 +101,7 @@ class ReservationController extends Controller
 
         return compact('reservation');
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -108,7 +114,6 @@ class ReservationController extends Controller
         $reservation = Reservation::findOrFail($id);
 
         $reservationMail = $reservation->toArray();
-        $reservationData = $reservation->toArray();
 
         $reservationMail['arrive_at'] = Carbon::parse($reservation['arrive_at'])->format('d/m/Y');
         $reservationMail['leave_at'] = Carbon::parse($reservation['leave_at'])->format('d/m/Y');

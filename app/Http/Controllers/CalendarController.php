@@ -54,6 +54,8 @@ class CalendarController extends Controller
 
         foreach ($reservations as $reservation) {
             if($reservation->is_valid) {
+                $reservation->arrive_at = Carbon::parse($reservation->arrive_at);
+                $reservation->leave_at = Carbon::parse($reservation->leave_at);
                 $tmp[] = $reservation;
             }
         }
@@ -142,6 +144,8 @@ class CalendarController extends Controller
 
         foreach ($reservations as $reservation) {
             if($reservation->is_valid) {
+                $reservation->arrive_at = Carbon::parse($reservation->arrive_at);
+                $reservation->leave_at = Carbon::parse($reservation->leave_at);
                 $tmp[] = $reservation;
             }
         }

@@ -20,11 +20,6 @@ class CalendarTest extends TestCase
         $this->day = (int) date('d');
     }
 
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
     public function testYear()
     {
         $this->visit("/calendar/$this->year")

@@ -12,7 +12,7 @@
         <li><a href="{{ route('welcome') }}">Accueil</a> <span class="divider">/</span></li><li class="active">Réservations</li>
     </ul>
 
-    <h3>Filtres <button id="hide-filter"><i class="icon-plus"></i></button></h3>
+    <h3>Filtres <button class="btn" id="hide-filter"><i class="icon-plus"></i></button></h3>
 
     <form id="filter" action="{{ route('reservations.index') }}" method="GET">
         <div id="form-content">
@@ -44,6 +44,8 @@
             <button type="button" id="add-filter" class="btn btn-primary">OK</button>
         </div>
     </div>
+
+    <a class="btn" href="{{ route('reservations.create') }}">Nouvelle Réservation</a>
 
     @foreach($reservations as $reservation)
     <div>

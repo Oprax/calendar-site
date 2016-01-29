@@ -9,7 +9,7 @@ use Carbon\Carbon;
 class ReservationUITest extends TestCase
 {
     public $faker, $formatter;
-    private $dt_arrive, $dt_leave, $name, $forename, $email, $nb_people;
+    private $user, $dt_arrive, $dt_leave, $name, $forename, $email, $nb_people;
 
     public function setUp()
     {
@@ -18,6 +18,8 @@ class ReservationUITest extends TestCase
         $this->formatter = 'Y-m-d';
 
         $this->faker = Faker\Factory::create('fr_FR');
+
+        $this->user = factory(App\User::class)->create();
 
         $this->dt_arrive = $this->faker->dateTimeBetween('now', '+ 5 days')
                                        ->format($this->formatter);
@@ -316,5 +318,38 @@ class ReservationUITest extends TestCase
         $this->visit("/reservations?leave_at__gte={$dt_arrive->toDateString()}")
              ->see("$this->name $this->forename")
              ->see("Du $this->dt_arrive au $this->dt_leave pour $this->nb_people personne(s)");
+    }
+
+    public function testShow()
+    {
+        $this->testCreate();
+        $this->get("/reservations/1")
+            ->assertResponseStatus(200);
+
+        $this->get("/reservations/1337")
+            ->assertResponseStatus(404);
+    }
+
+    public function testUpdate()
+    {
+        $this->testCreate();
+        $this->actingAs($this->user)
+            ->visit("/reservations/1/edit");
+
+        $this->actingAs($this->user)
+            ->get("/reservations/1337/edit")
+            ->assertResponseStatus(404);
+    }
+
+    public function testDestroy()
+    {
+        $this->testCreate();
+        $this->actingAs($this->user)
+            ->delete("/reservations/1")
+            ->assertResponseStatus(302);
+
+        $this->actingAs($this->user)
+            ->delete("/reservations/1337")
+            ->assertResponseStatus(404);
     }
 }

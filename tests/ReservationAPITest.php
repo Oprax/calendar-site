@@ -9,6 +9,8 @@ use Illuminate\Support\Str;
 
 class ReservationAPITest extends TestCase
 {
+    use WithoutMiddleware;
+
     public $faker, $formatter;
     private $dt_arrive, $dt_leave, $name, $forename, $email, $nb_people, $payloads;
 
@@ -60,7 +62,7 @@ class ReservationAPITest extends TestCase
             ->seeJson($this->payloads);
     }
 
-    public function testShow()
+    public function testShowOK()
     {
         $response = $this->testStore();
 
@@ -68,6 +70,15 @@ class ReservationAPITest extends TestCase
 
         $this->get($uri)
             ->seeJson($this->payloads);
+    }
+
+    public function testShowNotFound()
+    {
+        $uri = str_replace("http://localhost", '', route('api.reservations.show', ['id' => 1337]));
+
+        $this->get($uri)
+            ->seeJson(['error' => 'not_found'])
+            ->assertResponseStatus(404);
     }
 
     public function testUpdate()
@@ -81,10 +92,25 @@ class ReservationAPITest extends TestCase
         $payloads['name'] = "Smith";
         $payloads['forename'] = "John";
 
-        $this->put($uri, $payloads);
+        $this->put($uri, $payloads)
+            ->assertResponseStatus(204);
 
         $this->get($uri)
             ->seeJson($payloads);
+    }
+
+    public function testUpdateNotFound()
+    {
+        $uri = str_replace("http://localhost", '', route('api.reservations.update', ['id' => 1337]));
+
+        $payloads = $this->payloads;
+
+        $payloads['name'] = "Smith";
+        $payloads['forename'] = "John";
+
+        $this->put($uri, $payloads)
+            ->seeJson(['error' => 'not_found'])
+            ->assertResponseStatus(404);
     }
 
     public function testDelete()

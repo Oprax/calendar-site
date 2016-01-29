@@ -17,12 +17,11 @@ class StatsController extends Controller
     public static $MAX = 11;
     private $days = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
     private $months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
-    
+
 
     /**
      * Instantiate a new StatsController instance.
      *
-     * @return void
      */
     public function __construct()
     {
@@ -115,6 +114,11 @@ class StatsController extends Controller
         $monthly['categories'] = array_values($monthly['categories']);
 
         $months = $this->months;
+/*
+        if() {
+            return response()->json();
+        }
+*/
         return view('stats.chart', compact('year', 'monthly', 'daily', 'months'));
     }
 }
