@@ -12,11 +12,18 @@ use App\Http\Controllers\ReservationController;
 
 use Carbon\Carbon;
 
+/**
+ * Class ReservationAPIController use for REST API
+ * with data sending in JSON.
+ *
+ * @see \App\Http\Controllers\ReservationController
+ * @package App\Http\Controllers
+ */
 class ReservationAPIController extends ReservationController
 {
     /**
-     * Instantiate a new ReservationController instance.
-     *
+     * Use CORS {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS CORS},
+     * and force HTTPS on API.
      */
     public function __construct()
     {
@@ -26,8 +33,13 @@ class ReservationAPIController extends ReservationController
     }
 
     /**
-     * Display a listing of the resource.
+     * Display a listing of the reservation
+     * with pagination and specific header
+     * (`Content-Range` and `Accept-Range`).
      *
+     * Data are sending in JSON.
+     *
+     * @see \App\Http\Controllers\ReservationController::index()
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
@@ -50,8 +62,10 @@ class ReservationAPIController extends ReservationController
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created reservation in storage.
+     * Send the URL of the newly reservation.
      *
+     * @see \App\Http\Controllers\ReservationController::store()
      * @param ReservationRequest|Request $request
      * @return \Illuminate\Http\Response
      */
@@ -64,8 +78,9 @@ class ReservationAPIController extends ReservationController
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified reservation.
      *
+     * @see \App\Http\Controllers\ReservationController::show()
      * @param  int $id
      * @return \Illuminate\Http\Response
      * @internal param Request $request
@@ -87,8 +102,9 @@ class ReservationAPIController extends ReservationController
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified reservation in storage.
      *
+     * @see \App\Http\Controllers\ReservationController::update()
      * @param ReservationRequest|Request $request
      * @param  int $id
      * @return \Illuminate\Http\Response
@@ -110,8 +126,9 @@ class ReservationAPIController extends ReservationController
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified reservation from storage.
      *
+     * @see \App\Http\Controllers\ReservationController::destroy()
      * @param  int $id
      * @return \Illuminate\Http\Response
      * @internal param Request $request

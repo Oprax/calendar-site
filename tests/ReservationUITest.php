@@ -33,11 +33,6 @@ class ReservationUITest extends TestCase
         $this->nb_people = $this->faker->numberBetween($min = 1, $max = 15);
     }
 
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
     public function testCreate()
     {
         $this->visit('/reservations/create?arrive_at=2015-02-10')

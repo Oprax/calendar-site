@@ -15,11 +15,6 @@ class StatsTest extends TestCase
         $this->user = factory(App\User::class)->create();
     }
 
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
     public function testIndex()
     {
         $this->actingAs($this->user)
@@ -27,11 +22,6 @@ class StatsTest extends TestCase
              ->see("Satistiques");
     }
 
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
     public function testChart()
     {
         $year = date('Y');

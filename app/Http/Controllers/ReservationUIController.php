@@ -13,11 +13,14 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 
 
+/**
+ * Class ReservationUIController
+ * @package App\Http\Controllers
+ */
 class ReservationUIController extends ReservationController
 {
     /**
-     * Instantiate a new ReservationController instance.
-     *
+     * @see https://laravel.com/docs/5.1/authentication#protecting-routes Authentication
      */
     public function __construct()
     {
@@ -27,8 +30,9 @@ class ReservationUIController extends ReservationController
 
 
     /**
-     * Display a listing of the resource.
+     * Display a listing of the reservation.
      *
+     * @see \App\Http\Controllers\ReservationController::index()
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
@@ -44,7 +48,7 @@ class ReservationUIController extends ReservationController
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new reservation.
      *
      * @param  Request  $request
      * @return Response
@@ -58,8 +62,10 @@ class ReservationUIController extends ReservationController
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created reservation in storage.
+     * Use reCaptcha to block bots.
      *
+     * @see \App\Http\Controllers\ReservationController::store()
      * @param ReservationRequest|Request $request
      * @return \Illuminate\Http\Response
      */
@@ -75,8 +81,9 @@ class ReservationUIController extends ReservationController
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified reservation.
      *
+     * @see \App\Http\Controllers\ReservationController::show()
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -93,7 +100,7 @@ class ReservationUIController extends ReservationController
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing the specified reservation.
      *
      * @param  int  $id
      * @return Response
@@ -106,8 +113,10 @@ class ReservationUIController extends ReservationController
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified reservation in storage.
+     * Use reCaptcha to block bots.
      *
+     * @see \App\Http\Controllers\ReservationController::update()
      * @param ReservationRequest|Request $request
      * @param  int $id
      * @return \Illuminate\Http\Response
@@ -124,8 +133,9 @@ class ReservationUIController extends ReservationController
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified reservation from storage.
      *
+     * @see \App\Http\Controllers\ReservationController::destroy()
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

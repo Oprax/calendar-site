@@ -43,11 +43,6 @@ class ReservationAPITest extends TestCase
         ];
     }
 
-    /**
-     * A basic test example.
-     *
-     * @return Response
-     */
     public function testStore()
     {
         $response = $this->call('POST', '/api/reservations', $this->payloads);

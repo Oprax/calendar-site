@@ -15,13 +15,18 @@ use Validator;
 use Carbon\Carbon;
 
 /**
+ * Logical part of Reservation module,
+ * separated to a better handle of URI and middleware,
+ * return only data (array).
+ *
  * Class ReservationController
  * @package App\Http\Controllers
  */
 class ReservationController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Get a listing of reservations.
+     * Have filter and some preference.
      *
      * @param  Request  $request
      * @return array
@@ -34,7 +39,8 @@ class ReservationController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store and check a newly created reservations in storage,
+     * and send an email to administrators for information.
      *
      * @param ReservationRequest|Request $request
      * @return array
@@ -48,26 +54,16 @@ class ReservationController extends Controller
 
         $dest = explode(',', env('MAIL_ADMIN'));
 
-        /*
-        $env = app()->environment();
-
-        if($env == 'production') {
-            $dest = ['romuller67@hotmail.fr', 'schneider.fernand@evc.net'];
-        } else {
-            $dest = ['romuller67@hotmail.fr', 'aphrox.romuller@gmail.com'];
-        }
-    */
         $this->sendMail('emails.new', $reservation->toArray(), $dest);
 
         return compact('reservation');
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified reservation.
      *
      * @param  int $id
      * @return array
-     * @internal param Request $request
      */
     public function show($id)
     {
@@ -77,7 +73,8 @@ class ReservationController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update and check the specified resource in storage.
+     * Send an email to user if reservation is accepted.
      *
      * @param ReservationRequest|Request $request
      * @param  int $id
@@ -104,7 +101,8 @@ class ReservationController extends Controller
 
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified reservation from storage.
+     * Informe with email to user the reservation is delete.
      *
      * @param  int  $id
      * @return array
@@ -146,7 +144,8 @@ class ReservationController extends Controller
     }
 
     /**
-     * Helper to build Query
+     * Helper to build DataBase Query
+     * with filter and fields selection.
      * 
      * @param  array  $params
      * @return Illuminate\Database\Eloquent\Collection
