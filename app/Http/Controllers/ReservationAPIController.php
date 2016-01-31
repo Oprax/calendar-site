@@ -29,6 +29,7 @@ class ReservationAPIController extends ReservationController
     {
         $this->middleware('cors');
         $this->middleware('secure');
+        $this->middleware('auth'); // in waiting OAuth2
         Carbon::setToStringFormat('d/m/Y');
     }
 

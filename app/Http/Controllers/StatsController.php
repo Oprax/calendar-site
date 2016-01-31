@@ -12,16 +12,33 @@ use App\Reservation;
 use Carbon\Carbon;
 
 
+/**
+ * Class StatsController process statistics data.
+ * @package App\Http\Controllers
+ */
 class StatsController extends Controller
 {
+    /**
+     * Max person could be accepted.
+     * @var int
+     */
     public static $MAX = 11;
-    private $days = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
-    private $months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
 
+    /**
+     * List of day
+     * @var array
+     */
+    private $days = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
+
+    /**
+     * List of month
+     * @var array
+     */
+    private $months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
 
     /**
      * Instantiate a new StatsController instance.
-     *
+     * Statistics is for Administrators.
      */
     public function __construct()
     {
@@ -29,9 +46,9 @@ class StatsController extends Controller
     }
 
     /**
-     * Return index view.
+     * Return list of year have statistics data.
      *
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -39,6 +56,14 @@ class StatsController extends Controller
         return view('stats.index', compact('title'));
     }
 
+    /**
+     * Process and generate data could be accepted by
+     * {@link http://www.highcharts.com/ Charts}
+     * for a given year.
+     *
+     * @param $year
+     * @return \Illuminate\View\View
+     */
     public function chart($year)
     {
         $dt = Carbon::createFromDate($year, 1, 1);
@@ -114,11 +139,7 @@ class StatsController extends Controller
         $monthly['categories'] = array_values($monthly['categories']);
 
         $months = $this->months;
-/*
-        if() {
-            return response()->json();
-        }
-*/
+
         return view('stats.chart', compact('year', 'monthly', 'daily', 'months'));
     }
 }

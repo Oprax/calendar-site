@@ -44,13 +44,13 @@ Route::group(['prefix' => 'api'], function(){
 | OAuth2 routes
 |--------------------------------------------------------------------------
 */
-
+/*
 Route::group(['prefix' => 'oauth'], function(){
     Route::post('access_token', function() {
         return Response::json(Authorizer::issueAccessToken());
     });
 });
-
+*/
 /*
 |--------------------------------------------------------------------------
 | Authentication routes

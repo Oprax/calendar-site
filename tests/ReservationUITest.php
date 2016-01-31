@@ -1,5 +1,6 @@
 <?php
 
+use Anhskohbo\NoCaptcha\Facades\NoCaptcha;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -51,6 +52,16 @@ class ReservationUITest extends TestCase
 
     public function testCreateOK()
     {
+        // prevent validation error on captcha
+        NoCaptcha::shouldReceive('verifyResponse')
+            ->once()
+            ->andReturn(true);
+
+        // provide hidden input for your 'required' validation
+        NoCaptcha::shouldReceive('display')
+            ->zeroOrMoreTimes()
+            ->andReturn('<input type="hidden" name="g-recaptcha-response" value="1" />');
+
         // Good
         $this->visit('/reservations/create')
              ->see('Formulaire de Réservation')

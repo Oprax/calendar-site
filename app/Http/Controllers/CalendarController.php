@@ -11,11 +11,35 @@ use App\Reservation;
 
 use Carbon\Carbon;
 
+/**
+ * Class CalendarController handle and generate calendar.
+ * @package App\Http\Controllers
+ */
 class CalendarController extends Controller
 {
+    /**
+     * List of day
+     * @var array
+     */
     private $days = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
+
+    /**
+     * List of month
+     * @var array
+     */
     private $months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
-    
+
+    /**
+     * Dispatcher
+     *
+     * @see App\Http\Controllers\CalendarController::year()
+     * @see App\Http\Controllers\CalendarController::month()
+     * @see App\Http\Controllers\CalendarController::day()
+     * @param int $year
+     * @param null|int $month
+     * @param null|int $day
+     * @return \Illuminate\View\View
+     */
     public function main($year, $month = null, $day = null)
     {
         $year = (int) $year;
@@ -35,14 +59,28 @@ class CalendarController extends Controller
             return $this->day($year, $month, $day);
         }
 
-        return abort(404);
+        abort(400);
     }
 
+    /**
+     * Return view with Month choice.
+     *
+     * @param $year
+     * @return \Illuminate\View\View
+     */
     private function year($year)
     {
         return view('calendar.year', ['year' => $year, 'months' => $this->months]);
     }
 
+    /**
+     * Generate a calendar table (bootstrap style)
+     * who can select day of month given.
+     *
+     * @param $year
+     * @param $month
+     * @return \Illuminate\View\View
+     */
     private function month($year, $month)
     {
         $dt = Carbon::createFromDate($year, 1, 1);
@@ -133,6 +171,14 @@ class CalendarController extends Controller
         return view('calendar.month', compact('month', 'monthLitt', 'year', 'table'));
     }
 
+    /**
+     * List of Reservation in date given.
+     *
+     * @param $year
+     * @param $month
+     * @param $day
+     * @return \Illuminate\View\View
+     */
     private function day($year, $month, $day)
     {
         $dt = Carbon::createFromDate($year, 1, 1);
