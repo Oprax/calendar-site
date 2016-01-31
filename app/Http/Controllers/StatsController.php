@@ -75,8 +75,8 @@ class StatsController extends Controller
 
         foreach($reservations as $reservation)
         {
-            $arrive_at = $reservation->arrive_at;
-            $leave_at = $reservation->leave_at;
+            $arrive_at = Carbon::parse($reservation->arrive_at);
+            $leave_at = Carbon::parse($reservation->leave_at);
 
             while ($arrive_at->lte($leave_at))
             {
