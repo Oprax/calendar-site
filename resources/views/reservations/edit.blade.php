@@ -44,12 +44,6 @@
                 {!! Form::text('leave_at', $reservation->leave_at, ['class' => 'form-control']) !!}
             </div>
 
-            <br>
-            <div class="form-group">
-                {!! app('captcha')->display(); !!}
-            </div>
-            <br>
-
             {!! Form::button('Envoyer', ['class' => 'btn btn-primary', 'type' => 'submit']) !!}
             
         {!! Form::close() !!}

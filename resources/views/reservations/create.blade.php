@@ -58,11 +58,9 @@ if (Auth::check()) {
 
             <br>
             <div class="form-group">
-                {!! app('captcha')->display(); !!}
+                {!! app('captcha')->display() !!}
             </div>
             <br>
-
-            <div class="form-group"><input type="hidden"></div>
 
             {!! Form::button('Envoyer', ['class' => 'btn btn-primary', 'type' => 'submit']) !!}
         {!! Form::close() !!}

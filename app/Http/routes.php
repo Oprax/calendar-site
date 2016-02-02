@@ -58,21 +58,24 @@ Route::group(['prefix' => 'oauth'], function(){
 */
 
 // Set value to null if you're not HTTPS
-Route::group(['middleware' => 'secure'], function ()
+Route::group(['prefix' => 'auth', 'middleware' => 'secure'], function ()
 {
-    Route::get('auth/login', ['as' => 'auth.login', 'uses' => 'Auth\AuthController@getLogin']);
-    Route::post('auth/login', 'Auth\AuthController@postLogin');
-    Route::get('auth/logout', ['as' => 'auth.logout', 'uses' => 'Auth\AuthController@getLogout']);
+    Route::get('login', ['as' => 'auth.login', 'uses' => 'Auth\AuthController@getLogin']);
+    Route::post('login', 'Auth\AuthController@postLogin');
+    Route::get('logout', ['as' => 'auth.logout', 'uses' => 'Auth\AuthController@getLogout']);
+
+    // Registration routes...
+    //Route::get('register', ['as' => 'auth.register', 'uses' => 'Auth\AuthController@getRegister']);
+    //Route::post('register', 'Auth\AuthController@postRegister');
 });
 
-// Registration routes...
-//Route::get('auth/register', ['as' => 'auth.register', 'uses' => 'Auth\AuthController@getRegister']);
-//Route::post('auth/register', 'Auth\AuthController@postRegister');
+Route::group(['prefix' => 'password', 'middleware' => 'secure'], function ()
+{
+    // Password reset link request routes...
+    Route::get('email', ['as' => 'auth.email', 'uses' => 'Auth\PasswordController@getEmail']);
+    Route::post('email', 'Auth\PasswordController@postEmail');
 
-// Password reset link request routes...
-Route::get('password/email', ['as' => 'auth.email', 'uses' => 'Auth\PasswordController@getEmail']);
-Route::post('password/email', 'Auth\PasswordController@postEmail');
-
-// Password reset routes...
-Route::get('password/reset/{token}', ['as' => 'auth.resetToken', 'uses' => 'Auth\PasswordController@getReset']);
-Route::post('password/reset', ['as' => 'auth.reset', 'uses' => 'Auth\PasswordController@postReset']);
+    // Password reset routes...
+    Route::get('reset/{token}', ['as' => 'auth.resetToken', 'uses' => 'Auth\PasswordController@getReset']);
+    Route::post('reset', ['as' => 'auth.reset', 'uses' => 'Auth\PasswordController@postReset']);
+});
