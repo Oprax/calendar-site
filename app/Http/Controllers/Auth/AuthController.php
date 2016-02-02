@@ -46,7 +46,7 @@ class AuthController extends Controller
         $this->validate($request, [
             $this->loginUsername() => 'required',
             'password' => 'required',
-            'g-recaptcha-response' => 'required|recaptcha'
+            'g-recaptcha-response' => 'required|captcha'
         ]);
 
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
