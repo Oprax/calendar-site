@@ -15,6 +15,13 @@
                 {!! Form::label('password', "Mot de passe") !!}
                 {!! Form::password('password', isset($password) ? $password : null, ['class' => 'form-control']) !!}
             </div>
+
+            <br>
+            <div class="form-group">
+                {!! app('captcha')->display() !!}
+            </div>
+            <br>
+
             <div class="form-group">
                 {!! Form::label('remember', "Se souvenir de moi") !!}
                 {!! Form::checkbox('remember', isset($remember) ? $remember : null, ['class' => 'form-control']) !!}
