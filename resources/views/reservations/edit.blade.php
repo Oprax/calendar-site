@@ -36,11 +36,11 @@
                 {!! Form::text('nb_people', $reservation->nb_people, ['class' => 'form-control']) !!}
             </div>
             <div class="form-group">
-                {!! Form::label('arrive_at', "Date d'arrivée") !!}
+                {!! Form::label('arrive_at', "Date d'arrivée (à Montesquieu)") !!}
                 {!! Form::text('arrive_at', $reservation->arrive_at, ['class' => 'form-control']) !!}
             </div>
             <div class="form-group">
-                {!! Form::label('leave_at', "Date de départ") !!}
+                {!! Form::label('leave_at', "Date de départ (de Montesquieu)") !!}
                 {!! Form::text('leave_at', $reservation->leave_at, ['class' => 'form-control']) !!}
             </div>
 
