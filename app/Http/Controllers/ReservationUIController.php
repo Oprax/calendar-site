@@ -125,10 +125,6 @@ class ReservationUIController extends ReservationController
     {
         extract(parent::update($request, $id));
 
-        $this->validate($request, [
-            'g-recaptcha-response'  => 'required|captcha'
-        ]);
-
         return redirect()->route('reservations.show', $reservation);
     }
 
