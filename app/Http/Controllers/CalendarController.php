@@ -99,6 +99,7 @@ class CalendarController extends Controller
         }
 
         $reservations = $tmp;
+        unset($tmp);
 
         $isTaken = [];
 
@@ -109,7 +110,8 @@ class CalendarController extends Controller
                 $current = Carbon::createFromDate($year, $month, 1);
 
                 while ($current->month == $month) {
-                    if($current->between($reservation->arrive_at, $reservation->leave_at->addDay(), true)) {
+                    $leave_at = Carbon::instance($reservation->leave_at);
+                    if($current->between($reservation->arrive_at, $leave_at->addDay())) {
                         $isTaken[] = $current->day;
                     }
                     $current->addDay();
@@ -145,6 +147,7 @@ class CalendarController extends Controller
             }
             
             $url = route('calendar.main', ['year' => $year, 'month' => $month, 'day' => $d]);
+
             if(in_array($d, $isTaken)) {
                 $table .= '<td><a class="btn btn-primary" href="'.$url.'">' .$d. '</a></td>';
             } else {
