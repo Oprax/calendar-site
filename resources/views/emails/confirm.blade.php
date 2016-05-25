@@ -34,7 +34,7 @@
                             </tr>
                             <tr>
                                 <td align="center" style="font-family:Helvetica,sans-serif;mso-line-height-rule:exactly;text-align:center;line-height:40px;color:#333333;">
-                                    Bonjour {{ $name }} {{ $forename }}, votre réservation du {{ $arrive_at }} au {{ $leave_at }} a été validé.
+                                    Bonjour {{ $name }} {{ $forename }}, votre réservation du {{ $arrive_at }} au {{ $leave_at }} a été validée.
                                 </td>
                             </tr>
                             <tr>
