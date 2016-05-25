@@ -24,7 +24,7 @@ $now = date('Y');
             </ul>
         </div>
         <div class="span5">
-            <h2>Réservations Antérieurs</h2>
+            <h2>Réservations Antérieures</h2>
             <ul class="nav nav-list">
             @for($y = 2013; $y < $now; $y++)
                 <li>
