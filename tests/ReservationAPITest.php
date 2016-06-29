@@ -1,46 +1,24 @@
 <?php
 
 use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Str;
 
 class ReservationAPITest extends TestCase
 {
     use WithoutMiddleware;
 
-    public $faker, $formatter;
-    private $dt_arrive, $dt_leave, $name, $forename, $email, $nb_people, $payloads;
+    private $payloads;
 
     public function setUp()
     {
         parent::setUp();
 
-        $this->formatter = 'Y-m-d';
+        Artisan::call('migrate');
 
-        $this->faker = Faker\Factory::create('fr_FR');
-
-        $this->dt_arrive = $this->faker->dateTimeBetween('now', '+ 5 days')
-            ->format($this->formatter);
-
-        $this->dt_leave  = $this->faker->dateTimeBetween('+ 5 days', '+ 30 days')
-            ->format($this->formatter);
-
-        $this->name = $this->faker->firstName;
-        $this->forename = $this->faker->lastName;
-        $this->email = $this->faker->email;
-        $this->nb_people = $this->faker->numberBetween($min = 1, $max = 15);
-
-        $this->payloads = [
-            'name' => $this->name,
-            'forename' => $this->forename,
-            'email' => $this->email,
-            'nb_people' => $this->nb_people,
-            'arrive_at' => $this->dt_arrive,
-            'leave_at' => $this->dt_leave,
-        ];
+        $this->payloads = factory(App\Reservation::class)->make()->toArray();
     }
 
     public function testStore()
