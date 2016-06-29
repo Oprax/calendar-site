@@ -19,3 +19,22 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'remember_token' => str_random(10),
     ];
 });
+
+$factory->define(App\Reservation::class, function (Faker\Generator $faker) {
+    $formatter = 'Y-m-d';
+    return [
+        'arrive_at' => $faker->dateTimeBetween('now', '+ 5 days')
+            ->format($formatter),
+
+        'leave_at'  => $faker->dateTimeBetween('+ 5 days', '+ 30 days')
+            ->format($formatter),
+
+        'name' => $faker->firstName,
+
+        'forename' => $faker->lastName,
+
+        'email' => $faker->email,
+
+        'nb_people' => $faker->numberBetween($min = 1, $max = 15)
+    ];
+});

@@ -1,37 +1,27 @@
 <?php
 
 use Anhskohbo\NoCaptcha\Facades\NoCaptcha;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Artisan;
 
 class ReservationUITest extends TestCase
 {
     public $faker, $formatter;
-    private $user, $dt_arrive, $dt_leave, $name, $forename, $email, $nb_people;
+    private $user, $reservation;
 
     public function setUp()
     {
         parent::setUp();
+
+        Artisan::call('migrate');
 
         $this->formatter = 'Y-m-d';
 
         $this->faker = Faker\Factory::create('fr_FR');
 
         $this->user = factory(App\User::class)->create();
-
-        $this->dt_arrive = $this->faker->dateTimeBetween('now', '+ 5 days')
-                                       ->format($this->formatter);
-
-        $this->dt_leave  = $this->faker->dateTimeBetween('+ 5 days', '+ 30 days')
-                                       ->format($this->formatter);
-
-        $this->name = $this->faker->firstName;
-        $this->forename = $this->faker->lastName;
-        $this->email = $this->faker->email;
-        $this->nb_people = $this->faker->numberBetween($min = 1, $max = 15);
+        $this->reservation = factory(App\Reservation::class)->create();
     }
 
     public function testCreate()
@@ -65,15 +55,15 @@ class ReservationUITest extends TestCase
         // Good
         $this->visit('/reservations/create')
              ->see('Formulaire de Réservation')
-             ->type($this->name, 'name')
-             ->type($this->forename, 'forename')
-             ->type($this->email, 'email')
-             ->type($this->nb_people, 'nb_people')
-             ->type($this->dt_arrive, 'arrive_at')
-             ->type($this->dt_leave, 'leave_at')
+             ->type($this->reservation->name, 'name')
+             ->type($this->reservation->forename, 'forename')
+             ->type($this->reservation->email, 'email')
+             ->type($this->reservation->nb_people, 'nb_people')
+             ->type($this->reservation->arrive_at, 'arrive_at')
+             ->type($this->reservation->leave_at, 'leave_at')
              ->press('Envoyer')
              ->see('Réservation')
-             ->see(htmlentities("De $this->name $this->forename pour $this->nb_people personne(s).", ENT_QUOTES))
+             ->see(htmlentities("De {$this->reservation->name} {$this->reservation->forename} pour {$this->reservation->nb_people} personne(s).", ENT_QUOTES))
              ->see('Refusée');
     }
 
@@ -83,11 +73,11 @@ class ReservationUITest extends TestCase
         $this->visit('/reservations/create')
              ->see('Formulaire de Réservation')
              ->type('Y', 'name')
-             ->type($this->forename, 'forename')
-             ->type($this->email, 'email')
-             ->type($this->nb_people, 'nb_people')
-             ->type($this->dt_arrive, 'arrive_at')
-             ->type($this->dt_leave, 'leave_at')
+             ->type($this->reservation->forename, 'forename')
+             ->type($this->reservation->email, 'email')
+             ->type($this->reservation->nb_people, 'nb_people')
+             ->type($this->reservation->arrive_at, 'arrive_at')
+             ->type($this->reservation->leave_at, 'leave_at')
              ->press('Envoyer')
              ->see('Formulaire de Réservation')
              ->see("Le texte Nom doit contenir au moins 2 caract&egrave;res.");
@@ -96,11 +86,11 @@ class ReservationUITest extends TestCase
         $this->visit('/reservations/create')
              ->see('Formulaire de Réservation')
              ->type($this->faker->paragraph($nbSentences = 8), 'name')
-             ->type($this->forename, 'forename')
-             ->type($this->email, 'email')
-             ->type($this->nb_people, 'nb_people')
-             ->type($this->dt_arrive, 'arrive_at')
-             ->type($this->dt_leave, 'leave_at')
+             ->type($this->reservation->forename, 'forename')
+             ->type($this->reservation->email, 'email')
+             ->type($this->reservation->nb_people, 'nb_people')
+             ->type($this->reservation->arrive_at, 'arrive_at')
+             ->type($this->reservation->leave_at, 'leave_at')
              ->press('Envoyer')
              ->see('Formulaire de Réservation')
              ->see("Le texte de Nom ne peut contenir plus de 50 caract&egrave;res.");
@@ -108,11 +98,11 @@ class ReservationUITest extends TestCase
         // name missing
         $this->visit('/reservations/create')
              ->see('Formulaire de Réservation')
-             ->type($this->forename, 'forename')
-             ->type($this->email, 'email')
-             ->type($this->nb_people, 'nb_people')
-             ->type($this->dt_arrive, 'arrive_at')
-             ->type($this->dt_leave, 'leave_at')
+             ->type($this->reservation->forename, 'forename')
+             ->type($this->reservation->email, 'email')
+             ->type($this->reservation->nb_people, 'nb_people')
+             ->type($this->reservation->arrive_at, 'arrive_at')
+             ->type($this->reservation->leave_at, 'leave_at')
              ->press('Envoyer')
              ->see('Formulaire de Réservation')
              ->see("Le champ Nom est obligatoire.");
@@ -123,12 +113,12 @@ class ReservationUITest extends TestCase
         // len(forename) < 2
         $this->visit('/reservations/create')
              ->see('Formulaire de Réservation')
-             ->type($this->name, 'name')
+             ->type($this->reservation->name, 'name')
              ->type('X', 'forename')
-             ->type($this->email, 'email')
-             ->type($this->nb_people, 'nb_people')
-             ->type($this->dt_arrive, 'arrive_at')
-             ->type($this->dt_leave, 'leave_at')
+             ->type($this->reservation->email, 'email')
+             ->type($this->reservation->nb_people, 'nb_people')
+             ->type($this->reservation->arrive_at, 'arrive_at')
+             ->type($this->reservation->leave_at, 'leave_at')
              ->press('Envoyer')
              ->see('Formulaire de Réservation')
              ->see("Le texte forename doit contenir au moins 2 caract&egrave;res.");
@@ -136,12 +126,12 @@ class ReservationUITest extends TestCase
         // forename > 50
         $this->visit('/reservations/create')
              ->see('Formulaire de Réservation')
-             ->type($this->name, 'name')
+             ->type($this->reservation->name, 'name')
              ->type($this->faker->paragraph($nbSentences = 8), 'forename')
-             ->type($this->email, 'email')
-             ->type($this->nb_people, 'nb_people')
-             ->type($this->dt_arrive, 'arrive_at')
-             ->type($this->dt_leave, 'leave_at')
+             ->type($this->reservation->email, 'email')
+             ->type($this->reservation->nb_people, 'nb_people')
+             ->type($this->reservation->arrive_at, 'arrive_at')
+             ->type($this->reservation->leave_at, 'leave_at')
              ->press('Envoyer')
              ->see('Formulaire de Réservation')
              ->see("Le texte de forename ne peut contenir plus de 50 caract&egrave;res.");
@@ -149,11 +139,11 @@ class ReservationUITest extends TestCase
         // forename missing
         $this->visit('/reservations/create')
              ->see('Formulaire de Réservation')
-             ->type($this->name, 'name')
-             ->type($this->email, 'email')
-             ->type($this->nb_people, 'nb_people')
-             ->type($this->dt_arrive, 'arrive_at')
-             ->type($this->dt_leave, 'leave_at')
+             ->type($this->reservation->name, 'name')
+             ->type($this->reservation->email, 'email')
+             ->type($this->reservation->nb_people, 'nb_people')
+             ->type($this->reservation->arrive_at, 'arrive_at')
+             ->type($this->reservation->leave_at, 'leave_at')
              ->press('Envoyer')
              ->see('Formulaire de Réservation')
              ->see("Le champ forename est obligatoire.");
@@ -163,24 +153,24 @@ class ReservationUITest extends TestCase
     {
         $this->visit('/reservations/create')
              ->see('Formulaire de Réservation')
-             ->type($this->name, 'name')
-             ->type($this->forename, 'forename')
+             ->type($this->reservation->name, 'name')
+             ->type($this->reservation->forename, 'forename')
              ->type('john.smithexample.net', 'email')
-             ->type($this->nb_people, 'nb_people')
-             ->type($this->dt_arrive, 'arrive_at')
-             ->type($this->dt_leave, 'leave_at')
+             ->type($this->reservation->nb_people, 'nb_people')
+             ->type($this->reservation->arrive_at, 'arrive_at')
+             ->type($this->reservation->leave_at, 'leave_at')
              ->press('Envoyer')
              ->see('Formulaire de Réservation')
              ->see("Le champ E-mail doit &ecirc;tre une adresse email valide.");
 
         $this->visit('/reservations/create')
              ->see('Formulaire de Réservation')
-             ->type($this->name, 'name')
-             ->type($this->forename, 'forename')
+             ->type($this->reservation->name, 'name')
+             ->type($this->reservation->forename, 'forename')
              ->type('john.smith@example', 'email')
-             ->type($this->nb_people, 'nb_people')
-             ->type($this->dt_arrive, 'arrive_at')
-             ->type($this->dt_leave, 'leave_at')
+             ->type($this->reservation->nb_people, 'nb_people')
+             ->type($this->reservation->arrive_at, 'arrive_at')
+             ->type($this->reservation->leave_at, 'leave_at')
              ->press('Envoyer')
              ->see('Formulaire de Réservation')
              ->see("Le champ E-mail doit &ecirc;tre une adresse email valide.");
@@ -188,10 +178,10 @@ class ReservationUITest extends TestCase
         // email missing
         $this->visit('/reservations/create')
              ->see('Formulaire de Réservation')
-             ->type($this->name, 'name')
-             ->type($this->nb_people, 'nb_people')
-             ->type($this->dt_arrive, 'arrive_at')
-             ->type($this->dt_leave, 'leave_at')
+             ->type($this->reservation->name, 'name')
+             ->type($this->reservation->nb_people, 'nb_people')
+             ->type($this->reservation->arrive_at, 'arrive_at')
+             ->type($this->reservation->leave_at, 'leave_at')
              ->press('Envoyer')
              ->see('Formulaire de Réservation')
              ->see("Le champ E-mail est obligatoire.");
@@ -202,12 +192,12 @@ class ReservationUITest extends TestCase
         // nb_people < 1
         $this->visit('/reservations/create')
              ->see('Formulaire de Réservation')
-             ->type($this->name, 'name')
-             ->type($this->forename, 'forename')
-             ->type($this->email, 'email')
+             ->type($this->reservation->name, 'name')
+             ->type($this->reservation->forename, 'forename')
+             ->type($this->reservation->email, 'email')
              ->type(0, 'nb_people')
-             ->type($this->dt_arrive, 'arrive_at')
-             ->type($this->dt_leave, 'leave_at')
+             ->type($this->reservation->arrive_at, 'arrive_at')
+             ->type($this->reservation->leave_at, 'leave_at')
              ->press('Envoyer')
              ->see('Formulaire de Réservation')
              ->see("La valeur de nb people doit &ecirc;tre sup&eacute;rieure &agrave; 1.");
@@ -215,12 +205,12 @@ class ReservationUITest extends TestCase
         // nb_people > 15
         $this->visit('/reservations/create')
              ->see('Formulaire de Réservation')
-             ->type($this->name, 'name')
-             ->type($this->forename, 'forename')
-             ->type($this->email, 'email')
+             ->type($this->reservation->name, 'name')
+             ->type($this->reservation->forename, 'forename')
+             ->type($this->reservation->email, 'email')
              ->type(16, 'nb_people')
-             ->type($this->dt_arrive, 'arrive_at')
-             ->type($this->dt_leave, 'leave_at')
+             ->type($this->reservation->arrive_at, 'arrive_at')
+             ->type($this->reservation->leave_at, 'leave_at')
              ->press('Envoyer')
              ->see('Formulaire de Réservation')
              ->see("La valeur de nb people ne peut &ecirc;tre sup&eacute;rieure &agrave; 15.");
@@ -228,11 +218,11 @@ class ReservationUITest extends TestCase
         // nb_people missing
         $this->visit('/reservations/create')
              ->see('Formulaire de Réservation')
-             ->type($this->name, 'name')
-             ->type($this->forename, 'forename')
-             ->type($this->email, 'email')
-             ->type($this->dt_arrive, 'arrive_at')
-             ->type($this->dt_leave, 'leave_at')
+             ->type($this->reservation->name, 'name')
+             ->type($this->reservation->forename, 'forename')
+             ->type($this->reservation->email, 'email')
+             ->type($this->reservation->arrive_at, 'arrive_at')
+             ->type($this->reservation->leave_at, 'leave_at')
              ->press('Envoyer')
              ->see('Formulaire de Réservation')
              ->see("Le champ nb people est obligatoire.");
@@ -245,10 +235,10 @@ class ReservationUITest extends TestCase
 
         $this->visit('/reservations/create')
              ->see('Formulaire de Réservation')
-             ->type($this->name, 'name')
-             ->type($this->forename, 'forename')
-             ->type($this->email, 'email')
-             ->type($this->nb_people, 'nb_people')
+             ->type($this->reservation->name, 'name')
+             ->type($this->reservation->forename, 'forename')
+             ->type($this->reservation->email, 'email')
+             ->type($this->reservation->nb_people, 'nb_people')
              ->type($dt_arrive, 'arrive_at')
              ->type($dt_leave, 'leave_at')
              ->press('Envoyer')
@@ -260,70 +250,70 @@ class ReservationUITest extends TestCase
     {
         $this->testCreateOK();
 
-        $this->visit("/reservations?name__eq=$this->name")
-             ->see("$this->name $this->forename")
-             ->see("Du $this->dt_arrive au $this->dt_leave pour $this->nb_people personne(s)");
+        $this->visit("/reservations?name__eq={$this->reservation->name}")
+             ->see("{$this->reservation->name} {$this->reservation->forename}")
+             ->see("Du {$this->reservation->arrive_at} au {$this->reservation->leave_at} pour {$this->reservation->nb_people} personne(s)");
 
-        $this->visit("/reservations?forename__eq=$this->forename")
-             ->see("$this->name $this->forename")
-             ->see("Du $this->dt_arrive au $this->dt_leave pour $this->nb_people personne(s)");
+        $this->visit("/reservations?forename__eq={$this->reservation->forename}")
+             ->see("{$this->reservation->name} {$this->reservation->forename}")
+             ->see("Du {$this->reservation->arrive_at} au {$this->reservation->leave_at} pour {$this->reservation->nb_people} personne(s)");
 
-        $this->visit("/reservations?nb_people__eq=$this->nb_people")
-             ->see("$this->name $this->forename")
-             ->see("Du $this->dt_arrive au $this->dt_leave pour $this->nb_people personne(s)");
+        $this->visit("/reservations?nb_people__eq={$this->reservation->nb_people}")
+             ->see("{$this->reservation->name} {$this->reservation->forename}")
+             ->see("Du {$this->reservation->arrive_at} au {$this->reservation->leave_at} pour {$this->reservation->nb_people} personne(s)");
 
-        $this->visit("/reservations?nb_people__lte=$this->nb_people")
-             ->see("$this->name $this->forename")
-             ->see("Du $this->dt_arrive au $this->dt_leave pour $this->nb_people personne(s)");
+        $this->visit("/reservations?nb_people__lte={$this->reservation->nb_people}")
+             ->see("{$this->reservation->name} {$this->reservation->forename}")
+             ->see("Du {$this->reservation->arrive_at} au {$this->reservation->leave_at} pour {$this->reservation->nb_people} personne(s)");
 
-        $this->visit("/reservations?nb_people__gte=$this->nb_people")
-             ->see("$this->name $this->forename")
-             ->see("Du $this->dt_arrive au $this->dt_leave pour $this->nb_people personne(s)");
+        $this->visit("/reservations?nb_people__gte={$this->reservation->nb_people}")
+             ->see("{$this->reservation->name} {$this->reservation->forename}")
+             ->see("Du {$this->reservation->arrive_at} au {$this->reservation->leave_at} pour {$this->reservation->nb_people} personne(s)");
 
-        $this->visit("/reservations?nb_people__lt=" . ($this->nb_people + 1))
-             ->see("$this->name $this->forename")
-             ->see("Du $this->dt_arrive au $this->dt_leave pour $this->nb_people personne(s)");
+        $this->visit("/reservations?nb_people__lt=" . ($this->reservation->nb_people + 1))
+             ->see("{$this->reservation->name} {$this->reservation->forename}")
+             ->see("Du {$this->reservation->arrive_at} au {$this->reservation->leave_at} pour {$this->reservation->nb_people} personne(s)");
 
-        $this->visit("/reservations?nb_people__gt=" . ($this->nb_people - 1))
-             ->see("$this->name $this->forename")
-             ->see("Du $this->dt_arrive au $this->dt_leave pour $this->nb_people personne(s)");
+        $this->visit("/reservations?nb_people__gt=" . ($this->reservation->nb_people - 1))
+             ->see("{$this->reservation->name} {$this->reservation->forename}")
+             ->see("Du {$this->reservation->arrive_at} au {$this->reservation->leave_at} pour {$this->reservation->nb_people} personne(s)");
 
-        $dt_arrive = Carbon::createFromFormat($this->formatter, $this->dt_arrive);
-        $dt_leave = Carbon::createFromFormat($this->formatter, $this->dt_leave);
+        $dt_arrive = Carbon::createFromFormat($this->formatter, $this->reservation->arrive_at);
+        $dt_leave = Carbon::createFromFormat($this->formatter, $this->reservation->leave_at);
 
         $this->visit("/reservations?arrive_at__eq={$dt_arrive->toDateString()}")
-             ->see("$this->name $this->forename")
-             ->see("Du $this->dt_arrive au $this->dt_leave pour $this->nb_people personne(s)");
+             ->see("{$this->reservation->name} {$this->reservation->forename}")
+             ->see("Du {$this->reservation->arrive_at} au {$this->reservation->leave_at} pour {$this->reservation->nb_people} personne(s)");
 
         $this->visit("/reservations?arrive_at__gte={$dt_arrive->toDateString()}")
-             ->see("$this->name $this->forename")
-             ->see("Du $this->dt_arrive au $this->dt_leave pour $this->nb_people personne(s)");
+             ->see("{$this->reservation->name} {$this->reservation->forename}")
+             ->see("Du {$this->reservation->arrive_at} au {$this->reservation->leave_at} pour {$this->reservation->nb_people} personne(s)");
 
         $this->visit("/reservations?arrive_at__lte={$dt_arrive->toDateString()}")
-             ->see("$this->name $this->forename")
-             ->see("Du $this->dt_arrive au $this->dt_leave pour $this->nb_people personne(s)");
+             ->see("{$this->reservation->name} {$this->reservation->forename}")
+             ->see("Du {$this->reservation->arrive_at} au {$this->reservation->leave_at} pour {$this->reservation->nb_people} personne(s)");
 
 
         $this->visit("/reservations?leave_at__eq={$dt_leave->toDateString()}")
-             ->see("$this->name $this->forename")
-             ->see("Du $this->dt_arrive au $this->dt_leave pour $this->nb_people personne(s)");
+             ->see("{$this->reservation->name} {$this->reservation->forename}")
+             ->see("Du {$this->reservation->arrive_at} au {$this->reservation->leave_at} pour {$this->reservation->nb_people} personne(s)");
 
         $this->visit("/reservations?leave_at__gte={$dt_leave->toDateString()}")
-             ->see("$this->name $this->forename")
-             ->see("Du $this->dt_arrive au $this->dt_leave pour $this->nb_people personne(s)");
+             ->see("{$this->reservation->name} {$this->reservation->forename}")
+             ->see("Du {$this->reservation->arrive_at} au {$this->reservation->leave_at} pour {$this->reservation->nb_people} personne(s)");
 
         $this->visit("/reservations?leave_at__lte={$dt_leave->toDateString()}")
-             ->see("$this->name $this->forename")
-             ->see("Du $this->dt_arrive au $this->dt_leave pour $this->nb_people personne(s)");
+             ->see("{$this->reservation->name} {$this->reservation->forename}")
+             ->see("Du {$this->reservation->arrive_at} au {$this->reservation->leave_at} pour {$this->reservation->nb_people} personne(s)");
 
 
         $this->visit("/reservations?arrive_at__lte={$dt_leave->toDateString()}")
-             ->see("$this->name $this->forename")
-             ->see("Du $this->dt_arrive au $this->dt_leave pour $this->nb_people personne(s)");
+             ->see("{$this->reservation->name} {$this->reservation->forename}")
+             ->see("Du {$this->reservation->arrive_at} au {$this->reservation->leave_at} pour {$this->reservation->nb_people} personne(s)");
 
         $this->visit("/reservations?leave_at__gte={$dt_arrive->toDateString()}")
-             ->see("$this->name $this->forename")
-             ->see("Du $this->dt_arrive au $this->dt_leave pour $this->nb_people personne(s)");
+             ->see("{$this->reservation->name} {$this->reservation->forename}")
+             ->see("Du {$this->reservation->arrive_at} au {$this->reservation->leave_at} pour {$this->reservation->nb_people} personne(s)");
     }
 
     public function testShow()

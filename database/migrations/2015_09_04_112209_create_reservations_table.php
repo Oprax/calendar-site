@@ -20,7 +20,7 @@ class CreateReservationsTable extends Migration
             $table->date('arrive_at');
             $table->date('leave_at');
             $table->integer('nb_people');
-            $table->boolean('is_valid');
+            $table->boolean('is_valid')->default(false);
             $table->timestamps();
         });
     }

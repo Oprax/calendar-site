@@ -1,8 +1,6 @@
 <?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Artisan;
 
 class StatsTest extends TestCase
 {
@@ -11,6 +9,8 @@ class StatsTest extends TestCase
     public function setUp()
     {
         parent::setUp();
+
+        Artisan::call('migrate');
 
         $this->user = factory(App\User::class)->create();
     }
