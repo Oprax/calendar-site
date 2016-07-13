@@ -4,8 +4,8 @@
 
 @section('content')
     <ul class="breadcrumb">
-        <li><a href="{{ route('welcome') }}">Accueil</a> <span class="divider">/</span></li>
-        <li><a href="{{ route('stats.index') }}">Statistiques</a> <span class="divider">/</span></li>
+        <li><a href="{{ route('welcome') }}">Accueil</a></li>
+        <li><a href="{{ route('stats.index') }}">Statistiques</a></li>
         <li class="active">{{ $year }}</li>
     </ul>
 

@@ -9,16 +9,16 @@
 
 @section('content')
     <ul class="breadcrumb">
-        <li><a href="{{ route('welcome') }}">Accueil</a> <span class="divider">/</span></li><li class="active">Réservations</li>
+        <li><a href="{{ route('welcome') }}">Accueil</a></li><li class="active">Réservations</li>
     </ul>
 
-    <h3>Filtres <button class="btn" id="hide-filter"><i class="icon-plus"></i></button></h3>
+    <h3>Filtres <button class="btn btn-default" id="hide-filter"><span class="glyphicon glyphicon-plus"></span></button></h3>
 
     <form id="filter" action="{{ route('reservations.index') }}" method="GET">
         <div id="form-content">
         </div>
 
-        <p><button type="button" data-toggle="modal" data-target="#modal-add-filter" class="btn">Ajouter nouveau filtre</button></p>
+        <p><button type="button" data-toggle="modal" data-target="#modal-add-filter" class="btn btn-default">Ajouter nouveau filtre</button></p>
         <p><button type="submit" class="btn btn-primary">OK</button></p>
     </form>
 
@@ -45,7 +45,7 @@
         </div>
     </div>
 
-    <a class="btn" href="{{ route('reservations.create') }}">Nouvelle Réservation</a>
+    <a class="btn btn-default" href="{{ route('reservations.create') }}">Nouvelle Réservation</a>
 
     @foreach($reservations as $reservation)
     <div>
@@ -91,14 +91,14 @@
             $form.hide();
 
             $('#hide-filter').click(function() {
-                $icon = $('i', this);
+                $icon = $('span', this);
 
-                if ($icon.hasClass('icon-minus')) {
-                    $icon.removeClass('icon-minus');
-                    $icon.addClass('icon-plus');
+                if ($icon.hasClass('glyphicon-minus')) {
+                    $icon.removeClass('glyphicon-minus');
+                    $icon.addClass('glyphicon-plus');
                 } else {
-                    $icon.removeClass('icon-plus');
-                    $icon.addClass('icon-minus');
+                    $icon.removeClass('glyphicon-plus');
+                    $icon.addClass('glyphicon-minus');
                 }
 
                 $form.toggle("slow");

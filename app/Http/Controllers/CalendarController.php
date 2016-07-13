@@ -151,7 +151,7 @@ class CalendarController extends Controller
             if(in_array($d, $isTaken)) {
                 $table .= '<td><a class="btn btn-primary" href="'.$url.'">' .$d. '</a></td>';
             } else {
-                $table .= '<td><a class="btn" href="'.$url.'">' .$d. '</a></td>';
+                $table .= '<td><a class="btn btn-default" href="'.$url.'">' .$d. '</a></td>';
             }
             
             

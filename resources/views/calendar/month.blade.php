@@ -9,8 +9,8 @@ $dt_next = \Carbon\Carbon::createFromDate($year, $month, 8)->addMonth();
 
 @section('content')
     <ul class="breadcrumb">
-        <li><a href="{{ route('welcome') }}">Accueil</a> <span class="divider">/</span></li>
-        <li><a href="{{ route('calendar.main', ['year' => $year]) }}">{{ $year }}</a> <span class="divider">/</span></li>
+        <li><a href="{{ route('welcome') }}">Accueil</a></li>
+        <li><a href="{{ route('calendar.main', ['year' => $year]) }}">{{ $year }}</a></li>
         <li class="active">{{ $monthLitt }}</li>
     </ul>
 

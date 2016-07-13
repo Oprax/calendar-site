@@ -12,9 +12,9 @@ $dt_next = Carbon::createFromDate($year, $month, $day)->addDay();
 
 @section('content')
     <ul class="breadcrumb">
-        <li><a href="{{ route('welcome') }}">Accueil</a> <span class="divider">/</span></li>
-        <li><a href="{{ route('calendar.main', compact('year')) }}">{{ $year }}</a> <span class="divider">/</span></li>
-        <li><a href="{{ route('calendar.main', compact('year', 'month')) }}">{{ $monthLitt }}</a> <span class="divider">/</span></li>
+        <li><a href="{{ route('welcome') }}">Accueil</a></li>
+        <li><a href="{{ route('calendar.main', compact('year')) }}">{{ $year }}</a></li>
+        <li><a href="{{ route('calendar.main', compact('year', 'month')) }}">{{ $monthLitt }}</a></li>
         <li class="active">{{ $day }}</li>
     </ul>
 

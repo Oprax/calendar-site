@@ -22,8 +22,8 @@ if (Auth::check()) {
 
 @section('content')
     <ul class="breadcrumb">
-        <li><a href="{{ route('welcome') }}">Accueil</a> <span class="divider">/</span></li>
-        <li><a href="{{ route('reservations.index') }}">Réservations</a> <span class="divider">/</span></li>
+        <li><a href="{{ route('welcome') }}">Accueil</a></li>
+        <li><a href="{{ route('reservations.index') }}">Réservations</a></li>
         <li class="active">Formulaire</li>
     </ul>
 

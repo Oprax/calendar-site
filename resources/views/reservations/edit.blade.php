@@ -10,9 +10,9 @@
 
 @section('content')
     <ul class="breadcrumb">
-        <li><a href="{{ route('welcome') }}">Accueil</a> <span class="divider">/</span></li>
-        <li><a href="{{ route('reservations.index') }}">Réservations</a> <span class="divider">/</span></li>
-        <li><a href="{{ route('reservations.show', ['id' => $reservation->id]) }}">N°{{ $reservation->id }}</a> <span class="divider">/</span></li>
+        <li><a href="{{ route('welcome') }}">Accueil</a></li>
+        <li><a href="{{ route('reservations.index') }}">Réservations</a></li>
+        <li><a href="{{ route('reservations.show', ['id' => $reservation->id]) }}">N°{{ $reservation->id }}</a></li>
         <li class="active">Modification</li>
     </ul>
     <div>
@@ -64,6 +64,7 @@
         {!! Form::close() !!}
         @endif
 
+        <br>
 
         {!! Form::open(['url' => route('reservations.destroy', $reservation), 'method' => 'DELETE']) !!}
             {!! Form::button('Supprimer', ['class' => 'btn btn-danger', 'type' => 'submit']) !!}
