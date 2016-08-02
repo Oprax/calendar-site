@@ -246,6 +246,9 @@ class ReservationUITest extends TestCase
              ->see("Le champ leave at doit &ecirc;tre une date post&eacute;rieure au $dt_arrive.");
     }
 
+    /*
+     * No more needed -> Vue.js
+
     public function testIndex()
     {
         $this->testCreateOK();
@@ -315,6 +318,7 @@ class ReservationUITest extends TestCase
              ->see("{$this->reservation->name} {$this->reservation->forename}")
              ->see("Du {$this->reservation->arrive_at} au {$this->reservation->leave_at} pour {$this->reservation->nb_people} personne(s)");
     }
+    */
 
     public function testShow()
     {
