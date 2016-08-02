@@ -7,12 +7,12 @@
         <meta charset="utf-8">
         <!-- Bootstrap -->
         <link href="{{ route('welcome') }}/static/css/bootstrap.min.css" rel="stylesheet">
+        <link href="{{ route('welcome') }}/static/css/bootstrap-theme.min.css" rel="stylesheet">
         <style>
             body {
                 padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
             }
         </style>
-        <link href="{{ route('welcome') }}/static/css/bootstrap-theme.min.css" rel="stylesheet">
         @yield('css')
     </head>
     <body>
