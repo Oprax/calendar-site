@@ -81,7 +81,6 @@
   }
 </style>
 <script>
-  import axios from 'axios'
   import moment from 'moment'
 
   moment.locale('fr')
@@ -104,6 +103,16 @@
       }
     },
     methods: {
+      buildQuery (params, url) {
+        let queryString = ''
+        for (var key in params) {
+          queryString += `&${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`
+        }
+        if (url.indexOf('?') === -1) {
+          queryString = queryString.replace('&', '?')
+        }
+        return (url + queryString)
+      },
       getReservations (url, params) {
         if (!url) {
           return
@@ -114,18 +123,21 @@
         if (this.validation) {
           params.valid = true
         }
+        url = this.buildQuery(params, url)
         this.loading = true
         let that = this
-        return axios.get(url, { params })
+        this.$http.get(url)
         .then((response) => {
           that.loading = false
-          that.reservations = response.data
-          that.reservations.page_range = Array(response.data.last_page).fill()
+          that.reservations = response.json()
+          that.reservations.page_range = Array(that.reservations.last_page).fill()
           that.reservations.data.forEach((element, index, array) => {
             element.arrive_at = moment(element.arrive_at)
             element.leave_at = moment(element.leave_at)
             array[index] = element
           })
+        }, (response) => {
+          console.error(response.statusText)
         })
       },
       clear () {
