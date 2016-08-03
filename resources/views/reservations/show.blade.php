@@ -22,7 +22,7 @@
             @if($reservation->is_valid)
             <span class="label label-info">Acceptée</span>
             @else
-            <span class="label label-important">Refusée</span>
+            <span class="label label-danger">Refusée</span>
             @endif
         </p>
         @if(Auth::check())

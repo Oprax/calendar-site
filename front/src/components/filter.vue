@@ -4,15 +4,24 @@
       <h3>Filtres</h3>
       <div class="form-group col-md-6">
         <label for="name">Nom</label>
-        <input type="text" class="form-control" id="name" v-model="form.name" lazy>
+        <input type="text" class="form-control" id="name" @change="formSubmit()" v-model="form.name" lazy>
       </div>
       <div class="form-group col-md-6">
         <label for="forename">Prénom</label>
-        <input type="text" class="form-control" id="forename" v-model="form.forename" lazy>
+        <input type="text" class="form-control" id="forename" @change="formSubmit()" v-model="form.forename" lazy>
       </div>
     </div>
     <div class="form-group">
       <button @click.prevent="formSubmit()" class="btn btn-default">Chercher</button>
+      <button @click.prevent="clear()" class="btn btn-default">Clear</button>
+    </div>
+  </form>
+
+  <form>
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" @change="formSubmit()" v-model="validation"> Uniquement les réservations validés
+      </label>
     </div>
   </form>
 
@@ -29,11 +38,11 @@
       <h1 class="panel-title">{{ reservation.name }} {{ reservation.forename }}</h1>
     </div>
     <div class="panel-body">
-      Du {{ reservation.arrive_at.format('D MMMM Y') }} au {{ reservation.leave_at.format('D MMMM Y') }} pour {{ reservation.nb_people }} personne(s).
+      Du <a href="{{ root + '/calendar/' + reservation.arrive_at.format('Y/M/D') }}">{{ reservation.arrive_at.format('D MMMM Y') }}</a> au <a href="{{ root + '/calendar/' + reservation.leave_at.format('Y/M/D') }}">{{ reservation.leave_at.format('D MMMM Y') }}</a> pour {{ reservation.nb_people }} personne(s).
     </div>
     <div class="panel-footer">
       <a class="btn btn-default" href="{{ this.root }}/reservations/{{ reservation.id }}">Voir la réservation</a>
-      <a class="btn btn-default" href="{{ this.root }}/reservations/{{ reservation.id }}/edit">Modifier la réservation</a>
+      <a v-if="auth" class="btn btn-default" href="{{ this.root }}/reservations/{{ reservation.id }}/edit">Modifier la réservation</a>
     </div>
   </div>
 
@@ -57,18 +66,18 @@
 </template>
 <style>
   .glyphicon-refresh-animate {
-    -animation: spin .7s infinite linear;
+    animation: spin .7s infinite linear;
     -webkit-animation: spin2 .7s infinite linear;
   }
 
-  @-webkit-keyframes spin2 {
-    from { -webkit-transform: rotate(0deg);}
-    to { -webkit-transform: rotate(360deg);}
+  @keyframes spin {
+    from { transform: scale(1) rotate(0deg); }
+    to { transform: scale(1) rotate(360deg); }
   }
 
-  @keyframes spin {
-    from { transform: scale(1) rotate(0deg);}
-    to { transform: scale(1) rotate(360deg);}
+  @-webkit-keyframes spin2 {
+    from { -webkit-transform: rotate(0deg); }
+    to { -webkit-transform: rotate(360deg); }
   }
 </style>
 <script>
@@ -86,6 +95,7 @@
       return {
         apiUrl: `${this.root}/api/reservations`,
         loading: false,
+        validation: true,
         form: {
           name: '',
           forename: ''
@@ -95,6 +105,15 @@
     },
     methods: {
       getReservations (url, params) {
+        if (!url) {
+          return
+        }
+        if (params === undefined) {
+          params = {}
+        }
+        if (this.validation) {
+          params.valid = true
+        }
         this.loading = true
         let that = this
         return axios.get(url, { params })
@@ -108,6 +127,11 @@
             array[index] = element
           })
         })
+      },
+      clear () {
+        this.form.name = ''
+        this.form.forename = ''
+        this.formSubmit()
       },
       formSubmit () {
         let params = {}
@@ -127,7 +151,7 @@
       }
     },
     ready () {
-      this.getReservations(this.apiUrl, {})
+      this.getReservations(this.apiUrl)
     }
   }
 </script>
