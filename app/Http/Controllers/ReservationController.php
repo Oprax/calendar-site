@@ -200,6 +200,11 @@ class ReservationController extends Controller
             $reservation = $reservation->where('is_valid', '=', $valid);
         }
 
-        return $reservation->paginate($perPage = $limit, $columns = array('*'), $pageName = 'page', $page = $page);
+        return $reservation->paginate(
+            $perPage = $limit,
+            $columns = array('*'),
+            $pageName = 'page',
+            $page = $page
+        )->appends($params);
     }
 }
