@@ -29,5 +29,5 @@
 
 @section('javascript')
         <script src="{{ route('welcome') }}/static/js/highcharts.min.js"></script>
-        <script src="{{ route('welcome') }}/static/js/app.js"></script>
+        <script src="{{ route('welcome') }}/static/js/stats.js"></script>
 @endsection

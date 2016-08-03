@@ -162,7 +162,7 @@ class ReservationController extends Controller
 
         $fields = ['name', 'forename', 'arrive_at', 'leave_at', 'nb_people'];
 
-        $limit = 15;
+        $limit = 10;
         $page = null;
 
         if (isset($params['limit']) and $params['limit'] > 0 and $params['limit'] < 100) {
@@ -195,6 +195,11 @@ class ReservationController extends Controller
             }
         }
 
-        return $reservation->paginate($perPage = $limit, $columns = array('*'), $pageName = 'reservations', $page = $page);
+        if (!empty($params['valid'])) {
+            $valid = $params['valid'] == 'true' ? true : false;
+            $reservation = $reservation->where('is_valid', '=', $valid);
+        }
+
+        return $reservation->paginate($perPage = $limit, $columns = array('*'), $pageName = 'page', $page = $page);
     }
 }
