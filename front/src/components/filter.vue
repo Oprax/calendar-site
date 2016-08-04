@@ -54,7 +54,7 @@
       </a>
     </li>
     <li v-for="uv in reservations.page_range" track-by="$index" :class="[($index + 1) === reservations.current_page ? 'active' : '']">
-      <a href="#" @click.prevent="getReservations(apiUrl+'?page='+($index + 1))">{{ $index + 1 }}</a>
+      <a href="#" @click.prevent="formSubmit({'page':($index + 1)})">{{ $index + 1 }}</a>
     </li>
     <li :class="[reservations.next_page_url ? '' : 'disabled']">
       <a href="#" aria-label="Next" @click.prevent="getReservations(reservations.next_page_url)">
@@ -103,39 +103,56 @@
       }
     },
     methods: {
+      buildQuery (params, url) {
+        let queryString = ''
+        for (var key in params) {
+          queryString += `&${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`
+        }
+        if (url.indexOf('?') === -1) {
+          queryString = queryString.replace('&', '?')
+        }
+        return (url + queryString)
+      },
       getReservations (url, params) {
         if (!url) {
           return
         }
+
         if (params === undefined) {
           params = {}
         }
+
         if (this.validation) {
           params.valid = true
         }
+
+        url = this.buildQuery(params, url)
+        console.log('URL', url)
         this.loading = true
         let that = this
-        this.$http.get(url, { params })
-        .then((response) => {
-          that.loading = false
-          that.reservations = response.json()
-          that.reservations.page_range = Array(that.reservations.last_page).fill()
-          that.reservations.data.forEach((element, index, array) => {
-            element.arrive_at = moment(element.arrive_at)
-            element.leave_at = moment(element.leave_at)
-            array[index] = element
+        this.$http.get(url)
+          .then((response) => {
+            that.loading = false
+            that.reservations = response.json()
+            that.reservations.page_range = Array(that.reservations.last_page).fill()
+            that.reservations.data.forEach((element, index, array) => {
+              element.arrive_at = moment(element.arrive_at)
+              element.leave_at = moment(element.leave_at)
+              array[index] = element
+            })
+          }, (response) => {
+            console.error(response.statusText)
           })
-        }, (response) => {
-          console.error(response.statusText)
-        })
       },
       clear () {
         this.form.name = ''
         this.form.forename = ''
         this.formSubmit()
       },
-      formSubmit () {
-        let params = {}
+      formSubmit (params) {
+        if (params === undefined) {
+          params = {}
+        }
 
         if (this.form.name) {
           params.name__eq = this.form.name
@@ -145,10 +162,7 @@
           params.forename__eq = this.form.forename
         }
 
-        if (params !== {}) {
-          console.log(params)
-          this.getReservations(this.apiUrl, params)
-        }
+        this.getReservations(this.apiUrl, params)
       }
     },
     ready () {
