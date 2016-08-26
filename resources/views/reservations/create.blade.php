@@ -21,50 +21,48 @@ if (Auth::check()) {
 @endsection
 
 @section('content')
-    <ul class="breadcrumb">
-        <li><a href="{{ route('welcome') }}">Accueil</a></li>
-        <li><a href="{{ route('reservations.index') }}">Réservations</a></li>
-        <li class="active">Formulaire</li>
-    </ul>
-
-    <div>
-        <h1>Formulaire de Réservation</h1>
-
-        {!! Form::open(['url' => route('reservations.store'), 'method' => 'POST']) !!}
-            <div class="form-group">
-                {!! Form::label('name', "Nom") !!}
-                {!! Form::text('name', isset($name) ? $name : null, ['class' => 'form-control']) !!}
-            </div>
-            <div class="form-group">
-                {!! Form::label('forename', "Prénom") !!}
-                {!! Form::text('forename', isset($forename) ? $forename : null, ['class' => 'form-control']) !!}
-            </div>
-            <div class="form-group">
-                {!! Form::label('email', "Email") !!}
-                {!! Form::email('email', isset($email) ? $email : null, ['class' => 'form-control']) !!}
-            </div>
-            <div class="form-group">
-                {!! Form::label('nb_people', "Nombre de personne") !!}
-                {!! Form::text('nb_people', isset($nb_people) ? $nb_people : null, ['class' => 'form-control']) !!}
-            </div>
-            <div class="form-group">
-                {!! Form::label('arrive_at', "Date d'arrivée (à Montesquieu)") !!}
-                {!! Form::text('arrive_at', isset($arrive_at) ? $arrive_at : null, ['class' => 'form-control']) !!}
-            </div>
-            <div class="form-group">
-                {!! Form::label('leave_at', "Date de départ (de Montesquieu)") !!}
-                {!! Form::text('leave_at', isset($leave_at) ? $leave_at : null, ['class' => 'form-control']) !!}
-            </div>
-
-            <br>
-            <div class="form-group">
-                {!! app('captcha')->display() !!}
-            </div>
-            <br>
-
-            {!! Form::button('Envoyer', ['class' => 'btn btn-primary', 'type' => 'submit']) !!}
-        {!! Form::close() !!}
+    <div class="ui breadcrumb">
+        <a class="section" href="{{ route('welcome') }}">Accueil</a>
+        <i class="right angle icon divider"></i>
+        <a class="section" href="{{ route('reservations.index') }}">Réservations</a></li>
+        <i class="right angle icon divider"></i>
+        <div class="section active">Formulaire</div>
     </div>
+
+
+    {!! Form::open(['url' => route('reservations.store'), 'method' => 'POST', 'class' => 'ui form']) !!}
+        <h1 class="ui dividing header">Formulaire de Réservation</h1>
+        <div class="field">
+            {!! Form::label('name', "Nom") !!}
+            {!! Form::text('name', isset($name) ? $name : null) !!}
+        </div>
+        <div class="field">
+            {!! Form::label('forename', "Prénom") !!}
+            {!! Form::text('forename', isset($forename) ? $forename : null) !!}
+        </div>
+        <div class="field">
+            {!! Form::label('email', "Email") !!}
+            {!! Form::email('email', isset($email) ? $email : null) !!}
+        </div>
+        <div class="field">
+            {!! Form::label('nb_people', "Nombre de personne") !!}
+            {!! Form::text('nb_people', isset($nb_people) ? $nb_people : null) !!}
+        </div>
+        <div class="field">
+            {!! Form::label('arrive_at', "Date d'arrivée (à Montesquieu)") !!}
+            {!! Form::text('arrive_at', isset($arrive_at) ? $arrive_at : null) !!}
+        </div>
+        <div class="field">
+            {!! Form::label('leave_at', "Date de départ (de Montesquieu)") !!}
+            {!! Form::text('leave_at', isset($leave_at) ? $leave_at : null) !!}
+        </div>
+
+        <div class="field">
+            {!! app('captcha')->display() !!}
+        </div>
+
+        {!! Form::button('Envoyer', ['class' => 'ui button primary', 'type' => 'submit']) !!}
+    {!! Form::close() !!}
 @endsection
 
 @section('javascript')

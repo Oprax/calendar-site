@@ -19,7 +19,7 @@ class StatsTest extends TestCase
     {
         $this->actingAs($this->user)
              ->visit("/stats")
-             ->see("Satistiques");
+             ->see("Statistiques");
     }
 
     public function testChart()

@@ -3,41 +3,31 @@
 @section('title', 'Réinitialisation')
 
 @section('content')
-    <div>
-        <div class="text-center">
-            <h1>Reinitialisation</h1>
+    {!! Form::open(['url' => route('auth.reset'), 'method' => 'POST', 'class' => 'ui form']) !!}
+        <input type="hidden" name="token" value="{{ $token }}">
+
+        <h1 class="ui dividing header">Reinitialisation</h1>
+
+        <div class="field">
+            {!! Form::label('email', "Email") !!}
+            {!! Form::email('email', isset($email) ? $email : '') !!}
         </div>
 
-        {!! Form::open(['url' => route('auth.reset'), 'method' => 'POST', 'class' => 'form-horizontal']) !!}
-            <input type="hidden" name="token" value="{{ $token }}">
-
-            <div class="form-group">
-                {!! Form::label('email', "Email", ['class' => 'col-sm-2 control-label']) !!}
-                <div class="col-sm-10">
-                    {!! Form::email('email', isset($email) ? $email : '', ['class' => 'form-control']) !!}
-                </div>
+        <div class="two fields">
+            <div class="field">
+                {!! Form::label('password', "Mot de passe") !!}
+                {!! Form::password('password') !!}
             </div>
 
-            <div class="form-group">
-                {!! Form::label('password', "Mot de passe", ['class' => 'col-sm-2 control-label']) !!}
-                <div class="col-sm-10">
-                    {!! Form::password('password', ['class' => 'form-control']) !!}
-                </div>
+            <div class="field">
+                {!! Form::label('password_confirmation', "Confirmation du mot de passe") !!}
+                {!! Form::password('password_confirmation') !!}
             </div>
+        </div>
 
-            <div class="form-group">
-                {!! Form::label('password_confirmation', "Confirmation du mot de passe", ['class' => 'col-sm-2 control-label']) !!}
-                <div class="col-sm-10">
-                    {!! Form::password('password_confirmation', ['class' => 'form-control']) !!}
-                </div>
-            </div>
+        <div class="field">
+            {!! Form::submit('Envoyer', ['class' => 'ui button', 'type' => 'submit']) !!}
+        </div>
 
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                    {!! Form::submit('Envoyer', ['class' => 'btn btn-default', 'type' => 'submit']) !!}
-                </div>
-            </div>
-
-        {!! Form::close() !!}
-    </div>
+    {!! Form::close() !!}
 @endsection

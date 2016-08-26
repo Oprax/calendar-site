@@ -1,85 +1,81 @@
 <template>
-  <form>
-    <div class="row">
-      <h3>Filtres</h3>
-      <div class="form-group col-md-6">
-        <label for="name">Nom</label>
-        <input type="text" class="form-control" id="name" @change="formSubmit()" v-model="form.name" lazy>
-      </div>
-      <div class="form-group col-md-6">
-        <label for="forename">Prénom</label>
-        <input type="text" class="form-control" id="forename" @change="formSubmit()" v-model="form.forename" lazy>
-      </div>
-    </div>
-    <div class="form-group">
-      <button @click.prevent="formSubmit()" class="btn btn-default">Chercher</button>
-      <button @click.prevent="clear()" class="btn btn-default">Clear</button>
-    </div>
-  </form>
-
-  <form>
-    <div class="checkbox">
-      <label>
-        <input type="checkbox" @change="formSubmit()" v-model="validation"> Uniquement les réservations validés
-      </label>
-    </div>
-  </form>
-
   <div v-show="loading">
-    <p class="text-center">
-      <button class="btn btn-lg btn-info">
-        <span aria-hidden="true" class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...
-      </button>
-    </p>
-  </div>
-
-  <div class="panel panel-primary" v-for="reservation in reservations.data" v-show="!loading">
-    <div class="panel-heading">
-      <h1 class="panel-title">{{ reservation.name }} {{ reservation.forename }}</h1>
-    </div>
-    <div class="panel-body">
-      Du <a href="{{ root + '/calendar/' + reservation.arrive_at.format('Y/M/D') }}">{{ reservation.arrive_at.format('D MMMM Y') }}</a> au <a href="{{ root + '/calendar/' + reservation.leave_at.format('Y/M/D') }}">{{ reservation.leave_at.format('D MMMM Y') }}</a> pour {{ reservation.nb_people }} personne(s).
-    </div>
-    <div class="panel-footer">
-      <a class="btn btn-default" href="{{ this.root }}/reservations/{{ reservation.id }}">Voir la réservation</a>
-      <a v-if="auth" class="btn btn-default" href="{{ this.root }}/reservations/{{ reservation.id }}/edit">Modifier la réservation</a>
+    <div class="ui active inverted dimmer">
+      <div class="ui text loader">Chargement</div>
     </div>
   </div>
 
-  <nav aria-label="Page navigation" class="text-center" v-show="!loading">
-  <ul class="pagination">
-    <li :class="[reservations.prev_page_url ? '' : 'disabled']">
-      <a href="#" aria-label="Previous" @click.prevent="getReservations(reservations.prev_page_url)">
-        <span aria-hidden="true">&laquo;</span>
-      </a>
-    </li>
-    <li v-for="uv in reservations.page_range" track-by="$index" :class="[($index + 1) === reservations.current_page ? 'active' : '']">
-      <a href="#" @click.prevent="formSubmit({'page':($index + 1)})">{{ $index + 1 }}</a>
-    </li>
-    <li :class="[reservations.next_page_url ? '' : 'disabled']">
-      <a href="#" aria-label="Next" @click.prevent="getReservations(reservations.next_page_url)">
-        <span aria-hidden="true">&raquo;</span>
-      </a>
-    </li>
-  </ul>
-  </nav>
+  <form class="ui form">
+    <h3 class="ui dividing header">Filtres</h3>
+
+    <div class="two fields">
+      <div class="field">
+        <label for="name">Nom</label>
+        <input type="text" id="name" @change="formSubmit()" v-model="form.name" lazy>
+      </div>
+
+      <div class="field">
+        <label for="forename">Prénom</label>
+        <input type="text" id="forename" @change="formSubmit()" v-model="form.forename" lazy>
+      </div>
+    </div>
+
+    <div class="field">
+      <button @click.prevent="formSubmit()" class="ui button">Chercher</button>
+      <button @click.prevent="clear()" class="ui button">Clear</button>
+    </div>
+  </form>
+
+  <div class="ui divider"></div>
+
+  <form class="ui form">
+    <div class="field">
+      <div class="ui container">
+        <label>
+          <input type="checkbox" @change="formSubmit()" v-model="validation">
+          Uniquement les réservations validés
+        </label>
+      </div>
+    </div>
+  </form>
+
+  <div class="ui divider"></div>
+
+  <div class="ui divided items" v-show="!loading">
+    <div class="item" v-for="reservation in reservations.data">
+      <div class="content">
+        <h1 class="header">{{ reservation.name }} {{ reservation.forename }}</h1>
+        <div class="description">
+          <p>
+            Du <a href="{{ root + '/calendar/' + reservation.arrive_at.format('Y/M/D') }}">{{ reservation.arrive_at.format('D MMMM Y') }}</a> au
+            <a href="{{ root + '/calendar/' + reservation.leave_at.format('Y/M/D') }}">{{ reservation.leave_at.format('D MMMM Y') }}</a>
+            pour {{ reservation.nb_people }} personne(s).
+          </p>
+        </div>
+        <div class="extra">
+          <a class="ui button" href="{{ this.root }}/reservations/{{ reservation.id }}">Voir la réservation</a>
+          <a v-if="auth" class="ui button" href="{{ this.root }}/reservations/{{ reservation.id }}/edit">Modifier la réservation</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ui one column stackable center aligned page grid">
+    <div class="column twelve wide">
+      <div class="ui pagination menu center aligned" v-show="!loading">
+        <a :class="[reservations.prev_page_url ? '' : 'disabled', 'item']" href="#" @click.prevent="getReservations(reservations.prev_page_url)">
+          <span><i class="chevron left icon"></i></span>
+        </a>
+        <a v-for="uv in reservations.page_range" track-by="$index" :class="[($index + 1) === reservations.current_page ? 'active' : '', 'item']" href="#" @click.prevent="formSubmit({'page':($index + 1)})">
+          {{ $index + 1 }}
+        </a>
+        <a :class="[reservations.next_page_url ? '' : 'disabled', 'item']" href="#" @click.prevent="getReservations(reservations.next_page_url)">
+          <span><i class="chevron right icon"></i></span>
+        </a>
+      </div>
+    </div>
+  </div>
 </template>
-<style>
-  .glyphicon-refresh-animate {
-    animation: spin .7s infinite linear;
-    -webkit-animation: spin2 .7s infinite linear;
-  }
-
-  @keyframes spin {
-    from { transform: scale(1) rotate(0deg); }
-    to { transform: scale(1) rotate(360deg); }
-  }
-
-  @-webkit-keyframes spin2 {
-    from { -webkit-transform: rotate(0deg); }
-    to { -webkit-transform: rotate(360deg); }
-  }
-</style>
+<style></style>
 <script>
   import moment from 'moment'
 
