@@ -3,33 +3,26 @@
 @section('title', $year)
 
 @section('content')
-    <ul class="breadcrumb">
-        <li><a href="{{ route('welcome') }}">Accueil</a></li>
-        <li class="active">{{ $year }}</li>
-    </ul>
-
-    <div class="row">
-        <p class="text-center">
-            <h1>Montesquieu-des-Albères</h1>
-        </p>
-        <div class="span6">
-            <h2>{{ $year }}</h2>
-            <ul class="nav nav-list">
-            @foreach($months as $key => $month)
-                <li>
-                    <h5>
-                        <a href="{{ route('calendar.main', ['year' => $year, 'month' => ($key + 1)]) }}">
-                            <i class="icon-chevron-right"></i> {{ $month }}
-                        </a>
-                    </h5>
-                </li>
-            @endforeach
-            </ul>
-        </div>
+    <div class="ui breadcrumb">
+        <a class="section" href="{{ route('welcome') }}">Accueil</a>
+        <i class="right angle icon divider"></i>
+        <div class="section active">{{ $year }}</div>
     </div>
-    
-    <ul class="pager">
-        <li><a href="{{ route('calendar.main', ['year' => ($year - 1)]) }}">&larr; Précédent</a></li>
-        <li><a href="{{ route('calendar.main', ['year' => ($year + 1)]) }}">Suivant &rarr;</a></li>
-    </ul>
+
+    <h1 class="ui center aligned header">Montesquieu-des-Albères</h1>
+    <h2 class="ui center aligned header">{{ $year }}</h2>
+    <div class="ui grid center aligned">
+    @foreach($months as $key => $month)
+        <div class="four wide column aligned centered">
+            <a class="ui button" href="{{ route('calendar.main', ['year' => $year, 'month' => ($key + 1)]) }}">
+                {{ $month }}
+            </a>
+        </div>
+    @endforeach
+    </div>
+
+    <div class="ui two item menu centered">
+        <a class="item" href="{{ route('calendar.main', ['year' => ($year - 1)]) }}"><i class="chevron left icon"></i> Précédent</a>
+        <a class="item" href="{{ route('calendar.main', ['year' => ($year + 1)]) }}">Suivant <i class="chevron right icon"></i></a>
+    </div>
 @endsection
