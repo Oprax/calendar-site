@@ -8,19 +8,20 @@ $dt_next = \Carbon\Carbon::createFromDate($year, $month, 8)->addMonth();
 ?>
 
 @section('content')
-    <ul class="breadcrumb">
-        <li><a href="{{ route('welcome') }}">Accueil</a></li>
-        <li><a href="{{ route('calendar.main', ['year' => $year]) }}">{{ $year }}</a></li>
-        <li class="active">{{ $monthLitt }}</li>
-    </ul>
-
-    <div class="text-center">
-        <h1>{{ $monthLitt }}</h1>
-        {!! $table !!}
+    <div class="ui breadcrumb">
+        <a class="section" href="{{ route('welcome') }}">Accueil</a>
+        <i class="right angle icon divider"></i>
+        <a class="section" href="{{ route('calendar.main', compact('year')) }}">{{ $year }}</a></li>
+        <i class="right angle icon divider"></i>
+        <div class="section active">{{ $monthLitt }}</div>
     </div>
 
-    <ul class="pager">
-        <li><a href="{{ route('calendar.main', ['year' => $dt_previous->year, 'month' => $dt_previous->month]) }}">&larr; Précédent</a></li>
-        <li><a href="{{ route('calendar.main', ['year' => $dt_next->year, 'month' => $dt_next->month]) }}">Suivant &rarr;</a></li>
-    </ul>
+    <h1 class="ui center aligned header">{{ $monthLitt }} {{ $year }}</h1>
+    {!! $table !!}
+
+
+    <div class="ui two item menu centered">
+        <a class="item" href="{{ route('calendar.main', ['year' => $dt_previous->year, 'month' => $dt_previous->month]) }}"><i class="chevron left icon"></i> Précédent</a>
+        <a class="item" href="{{ route('calendar.main', ['year' => $dt_next->year, 'month' => $dt_next->month]) }}">Suivant <i class="chevron right icon"></i></a>
+    </div>
 @endsection

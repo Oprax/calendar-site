@@ -131,11 +131,11 @@ class CalendarController extends Controller
             $dt->addDay();
         }
 
-        $table = '<table class="table table-striped text-center"><thead><tr>';
+        $table = '<table class="ui table"><thead><tr>';
         
         foreach($this->days as $d)
         {
-            $table .= '<td><h5>' .substr($d, 0, 3). '</h5></td>';
+            $table .= '<th><h4 class="ui center aligned header">' .substr($d, 0, 3). '</h4></th>';
         }
 
         $table .= '</tr></thead><tbody><tr>';
@@ -149,9 +149,9 @@ class CalendarController extends Controller
             $url = route('calendar.main', ['year' => $year, 'month' => $month, 'day' => $d]);
 
             if(in_array($d, $isTaken)) {
-                $table .= '<td><a class="btn btn-primary" href="'.$url.'">' .$d. '</a></td>';
+                $table .= '<td class="center aligned"><a class="ui button primary" href="'.$url.'">' .$d. '</a></td>';
             } else {
-                $table .= '<td><a class="btn btn-default" href="'.$url.'">' .$d. '</a></td>';
+                $table .= '<td class="center aligned"><a class="ui button" href="'.$url.'">' .$d. '</a></td>';
             }
             
             

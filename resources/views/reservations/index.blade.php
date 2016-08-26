@@ -2,17 +2,16 @@
 
 @section('title', $title)
 
-@section('css')
-    <link href="{{ route('welcome') }}/static/css/app.css" rel=stylesheet>
-@endsection
-
 @section('content')
-    <ul class="breadcrumb">
-        <li><a href="{{ route('welcome') }}">Accueil</a></li><li class="active">Réservations</li>
-    </ul>
+    <div class="ui breadcrumb">
+        <a class="section" href="{{ route('welcome') }}">Accueil</a>
+        <i class="right angle icon divider"></i>
+        <div class="section active">Réservations</div>
+    </div>
+
+    <h1 class="ui center aligned header">Montesquieu-des-Albères</h1>
 
     <filter root="{{ route('welcome') }}" :auth="{{ Auth::check() ? 'true' : 'false' }}"></filter>
-
 @endsection
 
 @section('javascript')

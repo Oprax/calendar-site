@@ -11,12 +11,15 @@ $dt_next = Carbon::createFromDate($year, $month, $day)->addDay();
 ?>
 
 @section('content')
-    <ul class="breadcrumb">
-        <li><a href="{{ route('welcome') }}">Accueil</a></li>
-        <li><a href="{{ route('calendar.main', compact('year')) }}">{{ $year }}</a></li>
-        <li><a href="{{ route('calendar.main', compact('year', 'month')) }}">{{ $monthLitt }}</a></li>
-        <li class="active">{{ $day }}</li>
-    </ul>
+    <div class="ui breadcrumb">
+        <a class="section" href="{{ route('welcome') }}">Accueil</a>
+        <i class="right angle icon divider"></i>
+        <a class="section" href="{{ route('calendar.main', compact('year')) }}">{{ $year }}</a></li>
+        <i class="right angle icon divider"></i>
+        <a class="section" href="{{ route('calendar.main', compact('year', 'month')) }}">{{ $monthLitt }}</a>
+        <i class="right angle icon divider"></i>
+        <div class="section active">{{ $day }}</div>
+    </div>
 
     <div class="row">
         <h1>Montesquieu-des-Albères</h1>
@@ -24,8 +27,8 @@ $dt_next = Carbon::createFromDate($year, $month, $day)->addDay();
         <h2>{{ $day }} {{ $monthLitt }} {{ $year }}</h2>
 
         @forelse($isTaken as $reservation)
-        <div class="hero-unit">
-            <h3>Réservation N°{{ $reservation->id }}</h3>
+        <div class="ui message">
+            <div class="header">Réservation N°{{ $reservation->id }}</div>
             <p>
                 De {{ $reservation->name }} {{ $reservation->forename }} pour {{ $reservation->nb_people }} personne(s).
             </p>
@@ -34,25 +37,34 @@ $dt_next = Carbon::createFromDate($year, $month, $day)->addDay();
                  au {{ $reservation->leave_at->day }} {{ $months[$reservation->leave_at->month - 1] }} {{ $reservation->leave_at->year }}.
             </p>
             <p>
-                <a class="btn btn-primary" href="{{ route('reservations.show', $reservation) }}">Voir</a>
+                @if(Auth::check())
+                    {!! Form::open(['url' => route('reservations.destroy', $reservation), 'method' => 'DELETE']) !!}
+                    <a class="ui button primary" href="{{ route('reservations.edit', $reservation) }}">
+                        Modifier
+                    </a>
+                    <button type="submit" class="ui button negative">Supprimer</button>
+                    {!! Form::close() !!}
+                @else
+                    <a class="ui button" href="{{ route('reservations.show', $reservation) }}">Voir</a>
+                @endif
             </p>
         </div>
         @empty
-        <div class="hero-unit">
-           <p>Aucune réservation pour cette date !</p>
+        <div class="ui message">
+           Aucune réservation pour cette date !
         </div>
         @endforelse
 
         @if($dt->isToday() or $dt->isFuture())
-        <a class="btn btn-primary" href="{{ route('reservations.create') }}?arrive_at={{ $dt->toDateString() }}">
+        <a class="ui button primary" href="{{ route('reservations.create') }}?arrive_at={{ $dt->toDateString() }}">
             Ajouter une réservation pour cette date
         </a>
         @endif
 
     </div>
     
-    <ul class="pager">
-        <li><a href="{{ route('calendar.main', ['year' => $dt_previous->year, 'month' => $dt_previous->month, 'day' => $dt_previous->day]) }}">&larr; Précédent</a></li>
-        <li><a href="{{ route('calendar.main', ['year' => $dt_next->year, 'month' => $dt_next->month, 'day' => $dt_next->day]) }}">Suivant &rarr;</a></li>
-    </ul>
+    <div class="ui two item menu centered">
+        <a class="item" href="{{ route('calendar.main', ['year' => $dt_previous->year, 'month' => $dt_previous->month, 'day' => $dt_previous->day]) }}"><i class="chevron left icon"></i> Précédent</a>
+        <a class="item" href="{{ route('calendar.main', ['year' => $dt_next->year, 'month' => $dt_next->month, 'day' => $dt_next->day]) }}">Suivant <i class="chevron right icon"></i></a>
+    </div>
 @endsection

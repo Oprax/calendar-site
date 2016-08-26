@@ -3,21 +3,21 @@
 @section('title', 'Statistiques &bull; ' . $year)
 
 @section('content')
-    <ul class="breadcrumb">
-        <li><a href="{{ route('welcome') }}">Accueil</a></li>
-        <li><a href="{{ route('stats.index') }}">Statistiques</a></li>
-        <li class="active">{{ $year }}</li>
-    </ul>
-
-    <div class="text-center">
-        <h1>Année {{ $year }}</h1>
-        <div id="charts"></div>
+    <div class="ui breadcrumb">
+        <a class="section" href="{{ route('welcome') }}">Accueil</a>
+        <i class="right angle icon divider"></i>
+        <a class="section" href="{{ route('stats.index') }}">Statistiques</a>
+        <i class="right angle icon divider"></i>
+        <div class="active section">{{ $year }}</div>
     </div>
-    
-    <ul class="pager">
-        <li><a href="{{ route('stats.chart', ['year' => ($year - 1)]) }}">&larr; Précédent</a></li>
-        <li><a href="{{ route('stats.chart', ['year' => ($year + 1)]) }}">Suivant &rarr;</a></li>
-    </ul>
+
+    <h1 class="ui center aligned header">Année {{ $year }}</h1>
+    <div id="charts"></div>
+
+    <div class="ui two item menu centered">
+        <a class="item" href="{{ route('stats.chart', ['year' => ($year - 1)]) }}"><i class="chevron left icon"></i> Précédent</a>
+        <a class="item" href="{{ route('stats.chart', ['year' => ($year + 1)]) }}">Suivant <i class="chevron right icon"></i></a>
+    </div>
 
     <script type="text/javascript">
     var daily = {!! json_encode($daily) !!};
